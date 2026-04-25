@@ -5,6 +5,7 @@
 
 
 package com.mycompany.mavenproject1;
+import com.mycompany.mavenproject1.User.EditUser;
 import com.mycompany.mavenproject1.User.TambahUser;
 import java.sql.*;
 import javax.swing.table.DefaultTableModel;
@@ -104,8 +105,18 @@ public class FormUser extends javax.swing.JFrame {
         });
 
         Edit.setText("Edit");
+        Edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditActionPerformed(evt);
+            }
+        });
 
         Hapus.setText("Hapus");
+        Hapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HapusActionPerformed(evt);
+            }
+        });
 
         Back.setText("Back");
         Back.addActionListener(new java.awt.event.ActionListener() {
@@ -166,6 +177,61 @@ public class FormUser extends javax.swing.JFrame {
         new FormAdmin().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_BackActionPerformed
+
+    private void EditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditActionPerformed
+        int baris = tbUser.getSelectedRow();
+        if (baris == -1) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "Pilih data yang ingin diedit!",
+                "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        int idUser      = (int) tbUser.getValueAt(baris, 0);
+        String username = (String) tbUser.getValueAt(baris, 1);
+        String role     = (String) tbUser.getValueAt(baris, 2);
+        String idRef    = (String) tbUser.getValueAt(baris, 3);
+
+        new EditUser(idUser, username, role, idRef).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_EditActionPerformed
+
+    private void HapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HapusActionPerformed
+        int baris = tbUser.getSelectedRow();
+        if (baris == -1) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "Pilih data yang ingin dihapus!",
+                "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int konfirmasi = javax.swing.JOptionPane.showConfirmDialog(this,
+            "Yakin ingin menghapus data ini?",
+            "Konfirmasi Hapus",
+            javax.swing.JOptionPane.YES_NO_OPTION);
+
+        if (konfirmasi != javax.swing.JOptionPane.YES_OPTION) return;
+
+        int idUser = (int) tbUser.getValueAt(baris, 0);
+
+        database db = new database();
+        try (Connection con = db.koneksi();
+             PreparedStatement ps = con.prepareStatement("DELETE FROM users WHERE id_user=?")) {
+
+            ps.setInt(1, idUser);
+            ps.executeUpdate();
+
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "Data berhasil dihapus!",
+                "Sukses", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
+            loadData(); // refresh tabel
+
+        } catch (SQLException e) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "Error: " + e.getMessage(),
+                "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_HapusActionPerformed
 
     /**
      * @param args the command line arguments
