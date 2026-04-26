@@ -107,16 +107,25 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Krs"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="KrsActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="Prodi">
       <Properties>
         <Property name="text" type="java.lang.String" value="Prodi"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ProdiActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="Jadwal">
       <Properties>
         <Property name="text" type="java.lang.String" value="Jadwal"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="JadwalActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButton1">
       <Properties>

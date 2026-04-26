@@ -4,7 +4,6 @@
  */
 package com.mycompany.mavenproject1.User;
 
-import com.mycompany.mavenproject1.FormUser;
 import com.mycompany.mavenproject1.database;
 
 /**
@@ -118,23 +117,20 @@ public class TambahUser extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(kolomid)
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(Admin)
+                                .addGap(40, 40, 40)
+                                .addComponent(Mahasiswa)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                                .addComponent(Dosen))
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(Admin)
-                                        .addGap(40, 40, 40)
-                                        .addComponent(Mahasiswa)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
-                                        .addComponent(Dosen))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(jButton1)
-                                                .addComponent(labelNama)
-                                                .addComponent(fieldNama, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
-                                                .addComponent(labelPassword)
-                                                .addComponent(fieldPassword))
-                                            .addComponent(labelRole))
-                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jButton1)
+                                        .addComponent(labelNama)
+                                        .addComponent(fieldNama, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
+                                        .addComponent(labelPassword)
+                                        .addComponent(fieldPassword))
+                                    .addComponent(labelRole))
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(id_reff)

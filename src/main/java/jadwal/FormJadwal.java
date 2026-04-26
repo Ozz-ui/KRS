@@ -2,11 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
-
-package com.mycompany.mavenproject1;
-import com.mycompany.mavenproject1.User.EditUser;
-import com.mycompany.mavenproject1.User.TambahUser;
+package jadwal;
+import com.mycompany.mavenproject1.FormAdmin;
+import com.mycompany.mavenproject1.database;
 import java.sql.*;
 import javax.swing.table.DefaultTableModel;
 
@@ -14,49 +12,59 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author nicos
  */
-
-
-public class FormUser extends javax.swing.JFrame {
+public class FormJadwal extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormUser.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormJadwal.class.getName());
 
     /**
-     * Creates new form FormUser
+     * Creates new form FormJadwal
      */
-    public FormUser() {
+    public FormJadwal() {
         initComponents();
-        tbUser.setDefaultEditor(Object.class, null); 
+        jTable1.setDefaultEditor(Object.class, null);
         loadData();
     }
     
     private void loadData() {
-    DefaultTableModel model = new DefaultTableModel();
-    model.addColumn("ID");
-    model.addColumn("Username");
-    model.addColumn("Role");
-    model.addColumn("ID Ref");
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("ID Jadwal");
+        model.addColumn("Kelas");
+        model.addColumn("Mata Kuliah");
+        model.addColumn("Hari");
+        model.addColumn("Jam Mulai");
+        model.addColumn("Jam Selesai");
+        model.addColumn("Ruang");
 
-    database db = new database();
-    try (Connection con = db.koneksi();
-         Statement st = con.createStatement();
-         ResultSet rs = st.executeQuery("SELECT * FROM users")) {
+        database db = new database();
+        try (Connection con = db.koneksi();
+             Statement st = con.createStatement();
+             ResultSet rs = st.executeQuery(
+                 "SELECT j.id_jadwal, j.id_kelas, mk.nama_mk, j.hari, " +
+                 "j.jam_mulai, j.jam_selesai, j.ruang " +
+                 "FROM jadwal j " +
+                 "JOIN kelas k ON j.id_kelas = k.id_kelas " +
+                 "JOIN mata_kuliah mk ON k.kode_mk = mk.kode_mk " +
+                 "ORDER BY j.id_jadwal")) {
 
-        while (rs.next()) {
-            model.addRow(new Object[]{
-                rs.getInt("id_user"),
-                rs.getString("username"),
-                rs.getString("role"),
-                rs.getString("id_ref")
-            });
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    rs.getInt("id_jadwal"),
+                    rs.getInt("id_kelas"),
+                    rs.getString("nama_mk"),
+                    rs.getString("hari"),
+                    rs.getString("jam_mulai"),
+                    rs.getString("jam_selesai"),
+                    rs.getString("ruang")
+                });
+            }
+
+        } catch (SQLException e) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "Error: " + e.getMessage(), "Error",
+                javax.swing.JOptionPane.ERROR_MESSAGE);
         }
 
-    } catch (SQLException e) {
-        javax.swing.JOptionPane.showMessageDialog(this,
-            "Error: " + e.getMessage(), "Error",
-            javax.swing.JOptionPane.ERROR_MESSAGE);
-    }
-
-    tbUser.setModel(model); // ganti jTable1 dengan nama JTable kamu
+        jTable1.setModel(model);
 }
 
     /**
@@ -68,34 +76,25 @@ public class FormUser extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jToggleButton1 = new javax.swing.JToggleButton();
+        Back = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        Scroll = new javax.swing.JScrollPane();
-        tbUser = new javax.swing.JTable();
         Tambah = new javax.swing.JButton();
         Edit = new javax.swing.JButton();
         Hapus = new javax.swing.JButton();
-        Back = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
-        jToggleButton1.setText("jToggleButton1");
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        Back.setText("Back");
+        Back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BackActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel1.setText("Form User");
-
-        tbUser.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        Scroll.setViewportView(tbUser);
+        jLabel1.setText("Form Jadwal");
 
         Tambah.setText("Tambah");
         Tambah.addActionListener(new java.awt.event.ActionListener() {
@@ -118,59 +117,63 @@ public class FormUser extends javax.swing.JFrame {
             }
         });
 
-        Back.setText("Back");
-        Back.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BackActionPerformed(evt);
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
             }
-        });
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(Scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(Tambah)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Edit)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Hapus))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(Back)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(Back))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
+                        .addContainerGap()
+                        .addComponent(Tambah)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Edit)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(Hapus))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(125, 125, 125)
                         .addComponent(jLabel1)))
+                .addContainerGap(131, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Back)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Tambah)
                     .addComponent(Edit)
                     .addComponent(Hapus))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addComponent(Scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void TambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TambahActionPerformed
-        new TambahUser().setVisible(true);
+        new TambahJadwal().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_TambahActionPerformed
 
     private void BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackActionPerformed
@@ -179,57 +182,59 @@ public class FormUser extends javax.swing.JFrame {
     }//GEN-LAST:event_BackActionPerformed
 
     private void EditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditActionPerformed
-        int baris = tbUser.getSelectedRow();
+        int baris = jTable1.getSelectedRow();
         if (baris == -1) {
             javax.swing.JOptionPane.showMessageDialog(this,
-                "Pilih data yang ingin diedit!",
+                "Pilih jadwal yang ingin diedit!",
                 "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
             return;
         }
-        int idUser      = (int) tbUser.getValueAt(baris, 0);
-        String username = (String) tbUser.getValueAt(baris, 1);
-        String role     = (String) tbUser.getValueAt(baris, 2);
-        String idRef    = (String) tbUser.getValueAt(baris, 3);
 
-        new EditUser(idUser, username, role, idRef).setVisible(true);
+        int idJadwal  = (int) jTable1.getValueAt(baris, 0);
+        int idKelas   = (int) jTable1.getValueAt(baris, 1);
+        String hari   = (String) jTable1.getValueAt(baris, 3);
+        String jamMul = (String) jTable1.getValueAt(baris, 4);
+        String jamSel = (String) jTable1.getValueAt(baris, 5);
+        String ruang  = (String) jTable1.getValueAt(baris, 6);
+
+        new EditJadwal(idJadwal, idKelas, hari, jamMul, jamSel, ruang).setVisible(true);
         this.dispose();
+
     }//GEN-LAST:event_EditActionPerformed
 
     private void HapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HapusActionPerformed
-        int baris = tbUser.getSelectedRow();
+        int baris = jTable1.getSelectedRow();
         if (baris == -1) {
             javax.swing.JOptionPane.showMessageDialog(this,
-                "Pilih data yang ingin dihapus!",
+                "Pilih jadwal yang ingin dihapus!",
                 "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         int konfirmasi = javax.swing.JOptionPane.showConfirmDialog(this,
-            "Yakin ingin menghapus data ini?",
-            "Konfirmasi Hapus",
-            javax.swing.JOptionPane.YES_NO_OPTION);
+            "Yakin ingin menghapus jadwal ini?",
+            "Konfirmasi Hapus", javax.swing.JOptionPane.YES_NO_OPTION);
 
         if (konfirmasi != javax.swing.JOptionPane.YES_OPTION) return;
 
-        int idUser = (int) tbUser.getValueAt(baris, 0);
+        int idJadwal = (int) jTable1.getValueAt(baris, 0);
 
         database db = new database();
         try (Connection con = db.koneksi();
-             PreparedStatement ps = con.prepareStatement("DELETE FROM users WHERE id_user=?")) {
+             PreparedStatement ps = con.prepareStatement(
+                 "DELETE FROM jadwal WHERE id_jadwal=?")) {
 
-            ps.setInt(1, idUser);
+            ps.setInt(1, idJadwal);
             ps.executeUpdate();
-
             javax.swing.JOptionPane.showMessageDialog(this,
-                "Data berhasil dihapus!",
-                "Sukses", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-
-            loadData(); // refresh tabel
+                "Jadwal berhasil dihapus!", "Sukses",
+                javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            loadData();
 
         } catch (SQLException e) {
             javax.swing.JOptionPane.showMessageDialog(this,
-                "Error: " + e.getMessage(),
-                "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                "Error: " + e.getMessage(), "Error",
+                javax.swing.JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_HapusActionPerformed
 
@@ -255,17 +260,16 @@ public class FormUser extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new FormUser().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new FormJadwal().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Back;
     private javax.swing.JButton Edit;
     private javax.swing.JButton Hapus;
-    private javax.swing.JScrollPane Scroll;
     private javax.swing.JButton Tambah;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JTable tbUser;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

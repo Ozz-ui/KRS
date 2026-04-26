@@ -4,7 +4,6 @@
  */
 package com.mycompany.mavenproject1.User;
 
-import com.mycompany.mavenproject1.FormUser;
 import com.mycompany.mavenproject1.database;
 
 /**

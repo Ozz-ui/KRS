@@ -4,6 +4,11 @@
  */
 package com.mycompany.mavenproject1;
 
+import com.mycompany.mavenproject1.User.FormUser;
+import jadwal.FormJadwal;
+import krs.FormKRS;
+import prodi.FormProdi;
+
 /**
  *
  * @author nicos
@@ -65,10 +70,25 @@ public class FormAdmin extends javax.swing.JFrame {
         });
 
         Krs.setText("Krs");
+        Krs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                KrsActionPerformed(evt);
+            }
+        });
 
         Prodi.setText("Prodi");
+        Prodi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ProdiActionPerformed(evt);
+            }
+        });
 
         Jadwal.setText("Jadwal");
+        Jadwal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JadwalActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Mahasiswa");
 
@@ -132,6 +152,18 @@ public class FormAdmin extends javax.swing.JFrame {
     private void KelasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KelasActionPerformed
        new FormKelas().setVisible(true);
     }//GEN-LAST:event_KelasActionPerformed
+
+    private void KrsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KrsActionPerformed
+        new FormKRS().setVisible(true);
+    }//GEN-LAST:event_KrsActionPerformed
+
+    private void ProdiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProdiActionPerformed
+        new FormProdi().setVisible(true);
+    }//GEN-LAST:event_ProdiActionPerformed
+
+    private void JadwalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JadwalActionPerformed
+        new FormJadwal().setVisible(true);
+    }//GEN-LAST:event_JadwalActionPerformed
 
     /**
      * @param args the command line arguments
