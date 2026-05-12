@@ -41,19 +41,15 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="Back" min="-2" max="-2" attributes="0"/>
-                                  <Component id="labelKelas" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          </Group>
                           <Component id="comboKelas" alignment="0" max="32767" attributes="0"/>
                           <Component id="fieldSelesai" max="32767" attributes="0"/>
                           <Component id="comboHari" max="32767" attributes="0"/>
                           <Component id="fieldMulai" alignment="0" max="32767" attributes="0"/>
+                          <Component id="fieldRuang" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="Back" min="-2" max="-2" attributes="0"/>
+                                  <Component id="labelKelas" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="labelHari" min="-2" max="-2" attributes="0"/>
                                   <Component id="labelMulai" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="labelSelesai" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -61,7 +57,6 @@
                               </Group>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="fieldRuang" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
