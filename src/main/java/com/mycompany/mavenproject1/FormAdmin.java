@@ -17,6 +17,7 @@ public class FormAdmin extends javax.swing.JFrame {
      */
     public FormAdmin() {
         initComponents();
+       
     }
 
     /**
@@ -35,8 +36,7 @@ public class FormAdmin extends javax.swing.JFrame {
         Krs = new javax.swing.JButton();
         Prodi = new javax.swing.JButton();
         Jadwal = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        Logout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -51,18 +51,46 @@ public class FormAdmin extends javax.swing.JFrame {
         });
 
         Matkul.setText("Mata Kuliah");
+        Matkul.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MatkulActionPerformed(evt);
+            }
+        });
 
         Kelas.setText("Kelas");
+        Kelas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                KelasActionPerformed(evt);
+            }
+        });
 
         Krs.setText("Krs");
+        Krs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                KrsActionPerformed(evt);
+            }
+        });
 
         Prodi.setText("Prodi");
+        Prodi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ProdiActionPerformed(evt);
+            }
+        });
 
         Jadwal.setText("Jadwal");
+        Jadwal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JadwalActionPerformed(evt);
+            }
+        });
 
-        jButton1.setText("Mahasiswa");
-
-        jButton2.setText("Dosen");
+        Logout.setText("Logout");
+        Logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LogoutActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -85,10 +113,8 @@ public class FormAdmin extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Jadwal)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)))
-                .addContainerGap())
+                        .addComponent(Logout)))
+                .addGap(97, 97, 97))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -103,8 +129,7 @@ public class FormAdmin extends javax.swing.JFrame {
                     .addComponent(Krs)
                     .addComponent(Prodi)
                     .addComponent(Jadwal)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(Logout))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -112,8 +137,46 @@ public class FormAdmin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void UserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UserActionPerformed
-        new FormUser().setVisible(true);
+         new FormUser().setVisible(true);
+    dispose();
     }//GEN-LAST:event_UserActionPerformed
+
+    private void JadwalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JadwalActionPerformed
+        // TODO add your handling code here:
+         new FormJadwal().setVisible(true);
+    dispose();
+    }//GEN-LAST:event_JadwalActionPerformed
+
+    private void MatkulActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MatkulActionPerformed
+        // TODO add your handling code here:
+         new FormMatakuliah().setVisible(true);
+    dispose();
+    }//GEN-LAST:event_MatkulActionPerformed
+
+    private void KelasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KelasActionPerformed
+        // TODO add your handling code here:
+       new FormKelas().setVisible(true);
+    dispose();
+    }//GEN-LAST:event_KelasActionPerformed
+
+    private void KrsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KrsActionPerformed
+        // TODO add your handling code here:
+          new FormKrs().setVisible(true);
+    dispose();
+    }//GEN-LAST:event_KrsActionPerformed
+
+    private void ProdiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProdiActionPerformed
+        // TODO add your handling code here:
+           new FormProdi().setVisible(true);
+    dispose();
+    }//GEN-LAST:event_ProdiActionPerformed
+
+    private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutActionPerformed
+        // TODO add your handling code here:
+        new FormLogin().setVisible(true);
+    dispose();
+
+    }//GEN-LAST:event_LogoutActionPerformed
 
     /**
      * @param args the command line arguments
@@ -144,11 +207,10 @@ public class FormAdmin extends javax.swing.JFrame {
     private javax.swing.JButton Jadwal;
     private javax.swing.JButton Kelas;
     private javax.swing.JButton Krs;
+    private javax.swing.JButton Logout;
     private javax.swing.JButton Matkul;
     private javax.swing.JButton Prodi;
     private javax.swing.JButton User;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
