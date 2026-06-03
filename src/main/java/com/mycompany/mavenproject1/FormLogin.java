@@ -9,6 +9,7 @@ package com.mycompany.mavenproject1;
  * @author nicos
  */
 public class FormLogin extends javax.swing.JFrame {
+   
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FormLogin.class.getName());
 
@@ -18,7 +19,10 @@ public class FormLogin extends javax.swing.JFrame {
     public FormLogin() {
         initComponents();
     }
+    
 
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -162,12 +166,19 @@ public class FormLogin extends javax.swing.JFrame {
     }
 
     // Query ke database
-    String sql = "SELECT u.id_ref, u.password, "
-               + "m.nama AS nama_mahasiswa, d.nama_dosen "
-               + "FROM users u "
-               + "LEFT JOIN mahasiswa m ON u.id_ref = m.nim "
-               + "LEFT JOIN dosen d ON u.id_ref = CAST(d.id_dosen AS CHAR) "
-               + "WHERE u.username = ? AND u.role = ?";
+  String sql = "SELECT u.id_ref, "
+           + "u.password, "
+           + "m.nama AS nama_mahasiswa, "
+           + "m.angkatan, "
+           + "m.semester, "
+           + "m.id_prodi, "
+           + "p.nama_prodi, "
+           + "d.nama_dosen "
+           + "FROM users u "
+           + "LEFT JOIN mahasiswa m ON u.id_ref = m.nim "
+           + "LEFT JOIN prodi p ON m.id_prodi = p.id_prodi "
+           + "LEFT JOIN dosen d ON u.id_ref = CAST(d.id_dosen AS CHAR) "
+           + "WHERE u.username = ? AND u.role = ?";
 
     database db = new database();
     try (java.sql.Connection con = db.koneksi();
@@ -178,26 +189,125 @@ public class FormLogin extends javax.swing.JFrame {
         java.sql.ResultSet rs = ps.executeQuery();
 
         if (rs.next()) {
+                System.out.println("id_ref = " + rs.getString("id_ref"));
+                System.out.println("nama_mahasiswa = " + rs.getString("nama_mahasiswa"));
+                System.out.println("semester = " + rs.getString("semester"));
+                System.out.println("prodi = " + rs.getString("id_prodi"));
             String passDB = rs.getString("password");
             if (password.equals(passDB)) {
                 String idRef = rs.getString("id_ref");
-                String nama;
-                switch (role) {
-                    case "mahasiswa": nama = rs.getString("nama_mahasiswa"); break;
-                    case "dosen":     nama = rs.getString("nama_dosen");     break;
-                    default:          nama = "Administrator"; break;
-                }
-                javax.swing.JOptionPane.showMessageDialog(this,
-                    "Selamat datang, " + nama + "!",
-                    "Login Berhasil",
-                    javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                
+                if (role.equals("mahasiswa")) {
+
+    String nim = rs.getString("id_ref");
+    String namaMhs = rs.getString("nama_mahasiswa");
+    String semester = rs.getString("semester");
+    String prodi = rs.getString("nama_prodi");
+
+    // kalau mahasiswa belum ada di tabel mahasiswa
+    if (namaMhs == null) {
+
+        String sqlInsert =
+        "INSERT INTO mahasiswa " +
+        "(nim, nama, angkatan, id_prodi, semester) " +
+        "VALUES (?, ?, ?, ?, ?)";
+
+        java.sql.PreparedStatement psInsert =
+                con.prepareStatement(sqlInsert);
+
+        psInsert.setString(1, nim);
+        psInsert.setString(2, username);
+        psInsert.setInt(3, 2024);
+        psInsert.setInt(4, 1);
+        psInsert.setInt(5, 1);
+
+        psInsert.executeUpdate();
+
+        // isi default setelah insert
+        namaMhs = username;
+        semester = "1";
+        prodi = "Teknik Informatika";
+    }
+
+    // popup setelah data aman
+    javax.swing.JOptionPane.showMessageDialog(
+        this,
+        "Selamat datang, " + namaMhs + "!",
+        "Login Berhasil",
+        javax.swing.JOptionPane.INFORMATION_MESSAGE
+    );
+
+    new com.mycompany.mavenproject1.Mahasiswa.Dahboard(
+        nim,
+        namaMhs,
+        semester,
+        prodi
+    ).setVisible(true);
+
+    this.dispose();
+}
+                
                 if (role.equals("admin")) {
-                    new FormAdmin().setVisible(true);
-                }
-                // nanti kalau sudah ada FormDosen dan FormMahasiswa, tinggal tambah:
-                // else if (role.equals("dosen")) { new FormDosen().setVisible(true); }
-                // else if (role.equals("mahasiswa")) { new FormMahasiswa().setVisible(true); }
-                this.dispose();
+
+    new FormAdmin().setVisible(true);
+
+}
+    String namaTampil;
+
+    if (role.equals("admin")) {
+
+    new FormAdmin().setVisible(true);
+
+}   else if (role.equals("mahasiswa")) {
+
+    String nim = rs.getString("id_ref");
+    String namaMhs = rs.getString("nama_mahasiswa");
+    String semester = rs.getString("semester");
+    String prodi = rs.getString("nama_prodi");
+
+    // kalau data mahasiswa belum ada
+    if (namaMhs == null) {
+
+    String sqlInsert =
+    "INSERT INTO mahasiswa " +
+    "(nim, nama, angkatan, id_prodi, semester) " +
+    "VALUES (?, ?, ?, ?, ?)";
+
+    java.sql.PreparedStatement psInsert =
+            con.prepareStatement(sqlInsert);
+
+    psInsert.setString(1, nim);
+    psInsert.setString(2, username); // nama sementara
+    psInsert.setInt(3, 2024); // default angkatan
+    psInsert.setInt(4, 1); // default prodi TI
+    psInsert.setInt(5, 1); // semester awal
+
+    psInsert.executeUpdate();
+
+    // isi ulang variabel
+    namaMhs = username;
+    semester = "1";
+    prodi = "Teknik Informatika";
+}
+
+    new com.mycompany.mavenproject1.Mahasiswa.Dahboard(
+        nim,
+        namaMhs,
+        semester,
+        prodi
+        ).setVisible(true);
+
+} else if (role.equals("dosen")) {
+
+    // nanti dashboard dosen
+    javax.swing.JOptionPane.showMessageDialog(
+            this,
+            "Login dosen berhasil"
+    );
+}
+
+this.dispose();
+
 
             } else {
                 javax.swing.JOptionPane.showMessageDialog(this,

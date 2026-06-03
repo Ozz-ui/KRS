@@ -42,6 +42,7 @@ public class FormAdmin extends javax.swing.JFrame {
         Krs = new javax.swing.JButton();
         Prodi = new javax.swing.JButton();
         Jadwal = new javax.swing.JButton();
+        Logout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -90,6 +91,13 @@ public class FormAdmin extends javax.swing.JFrame {
             }
         });
 
+        Logout.setText("Logout");
+        Logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LogoutActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -109,8 +117,13 @@ public class FormAdmin extends javax.swing.JFrame {
                 .addComponent(Jadwal)
                 .addGap(16, 16, 16))
             .addGroup(layout.createSequentialGroup()
-                .addGap(198, 198, 198)
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(198, 198, 198)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(212, 212, 212)
+                        .addComponent(Logout)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -126,6 +139,8 @@ public class FormAdmin extends javax.swing.JFrame {
                     .addComponent(Krs)
                     .addComponent(Prodi)
                     .addComponent(Jadwal))
+                .addGap(18, 18, 18)
+                .addComponent(Logout)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -156,6 +171,23 @@ public class FormAdmin extends javax.swing.JFrame {
         new FormJadwal().setVisible(true);
     }//GEN-LAST:event_JadwalActionPerformed
 
+    private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutActionPerformed
+        // TODO add your handling code here:
+       int konfirmasi = javax.swing.JOptionPane.showConfirmDialog(
+            this,
+            "Yakin ingin logout?",
+            "Konfirmasi Logout",
+            javax.swing.JOptionPane.YES_NO_OPTION
+    );
+
+    if (konfirmasi == javax.swing.JOptionPane.YES_OPTION) {
+
+        new FormLogin().setVisible(true);
+
+        this.dispose(); // menutup FormAdmin
+    }
+    }//GEN-LAST:event_LogoutActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -185,6 +217,7 @@ public class FormAdmin extends javax.swing.JFrame {
     private javax.swing.JButton Jadwal;
     private javax.swing.JButton Kelas;
     private javax.swing.JButton Krs;
+    private javax.swing.JButton Logout;
     private javax.swing.JButton Matkul;
     private javax.swing.JButton Prodi;
     private javax.swing.JButton User;

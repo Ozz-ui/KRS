@@ -8,6 +8,7 @@ import com.mycompany.mavenproject1.FormAdmin;
 import com.mycompany.mavenproject1.database;
 import java.sql.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -38,12 +39,23 @@ public class FormKRS extends javax.swing.JFrame {
     try (Connection con = db.koneksi();
          Statement st = con.createStatement();
          ResultSet rs = st.executeQuery(
-             "SELECT id_krs, nim, nama_mahasiswa, semester, " +
-             "tahun_ajaran, status FROM v_krs_lengkap " +
-             "GROUP BY id_krs, nim, nama_mahasiswa, semester, tahun_ajaran, status " +
-             "ORDER BY id_krs DESC")) {
+    "SELECT k.id_krs, " +
+    "k.nim, " +
+    "m.nama AS nama_mahasiswa, " +
+    "k.semester, " +
+    "k.tahun_ajaran, " +
+    "COALESCE(k.status,'Menunggu') AS status " +
+    "FROM krs k " +
+    "LEFT JOIN mahasiswa m ON k.nim = m.nim " +
+    "ORDER BY k.id_krs DESC"
+    );) {
 
         while (rs.next()) {
+            System.out.println(
+            rs.getInt("id_krs") + " - " +
+            rs.getString("nim") + " - " +
+            rs.getString("nama_mahasiswa")
+            );
             model.addRow(new Object[]{
                 rs.getInt("id_krs"),
                 rs.getString("nim"),
@@ -256,39 +268,55 @@ public class FormKRS extends javax.swing.JFrame {
     }//GEN-LAST:event_TolakActionPerformed
 
     private void HapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HapusActionPerformed
-        int baris = jTable1.getSelectedRow();
-        if (baris == -1) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                "Pilih KRS terlebih dahulu!",
-                "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+         int baris = jTable1.getSelectedRow();
 
-        int konfirmasi = javax.swing.JOptionPane.showConfirmDialog(this,
-            "Yakin ingin menghapus KRS ini?",
-            "Konfirmasi Hapus", javax.swing.JOptionPane.YES_NO_OPTION);
+    if (baris == -1) {
+        JOptionPane.showMessageDialog(
+            this,
+            "Pilih data terlebih dahulu!"
+        );
+        return;
+    }
 
-        if (konfirmasi != javax.swing.JOptionPane.YES_OPTION) return;
+    int idKrs =
+        Integer.parseInt(
+            jTable1.getValueAt(baris, 0).toString()
+        );
 
-        int idKrs = (int) jTable1.getValueAt(baris, 0);
+    database db = new database();
 
-        database db = new database();
-        try (Connection con = db.koneksi();
-             PreparedStatement ps = con.prepareStatement(
-                 "DELETE FROM krs WHERE id_krs=?")) {
+    try (
+        Connection con = db.koneksi();
+        PreparedStatement ps1 =
+            con.prepareStatement(
+                "DELETE FROM krs_detail WHERE id_krs=?"
+            );
+        PreparedStatement ps2 =
+            con.prepareStatement(
+                "DELETE FROM krs WHERE id_krs=?"
+            );
+    ) {
 
-            ps.setInt(1, idKrs);
-            ps.executeUpdate();
-            javax.swing.JOptionPane.showMessageDialog(this,
-                "KRS berhasil dihapus!", "Sukses",
-                javax.swing.JOptionPane.INFORMATION_MESSAGE);
-            loadData();
+        ps1.setInt(1, idKrs);
+        ps1.executeUpdate();
 
-        } catch (SQLException e) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                "Error: " + e.getMessage(), "Error",
-                javax.swing.JOptionPane.ERROR_MESSAGE);
-        }
+        ps2.setInt(1, idKrs);
+        ps2.executeUpdate();
+
+        JOptionPane.showMessageDialog(
+            this,
+            "Data berhasil dihapus"
+        );
+
+        loadData();
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+            this,
+            e.getMessage()
+        );
+    }
     }//GEN-LAST:event_HapusActionPerformed
 
     /**
