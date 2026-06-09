@@ -223,67 +223,157 @@ public class EditUser extends javax.swing.JFrame {
     }//GEN-LAST:event_DosenActionPerformed
 
     private void TambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TambahActionPerformed
-        String username = fieldNama.getText().trim();
-        String password = new String(fieldPassword.getPassword()).trim();
-        String role = "";
-        String idRef = kolomid.getText().trim();
+         String username = fieldNama.getText().trim();
+    String password = new String(fieldPassword.getPassword()).trim();
+    String role = "";
+    String idRef = kolomid.getText().trim();
 
-        if (Admin.isSelected()) role = "admin";
-        else if (Mahasiswa.isSelected()) role = "mahasiswa";
-        else if (Dosen.isSelected()) role = "dosen";
+    // Tentukan role
+    if (Admin.isSelected()) {
+        role = "admin";
+    } else if (Mahasiswa.isSelected()) {
+        role = "mahasiswa";
+    } else if (Dosen.isSelected()) {
+        role = "dosen";
+    }
 
-        if (username.isEmpty()) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                "Username tidak boleh kosong!",
-                "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        if (!role.equals("admin") && idRef.isEmpty()) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                "NIM / ID Dosen tidak boleh kosong!",
-                "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
-            return;
-        }
+    // Validasi username
+    if (username.isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            "Username tidak boleh kosong!",
+            "Peringatan",
+            javax.swing.JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
 
-        // Kalau password dikosongkan, tidak diupdate
-        String sql;
-        if (password.isEmpty()) {
-            sql = "UPDATE users SET username=?, role=?, id_ref=? WHERE id_user=?";
-        } else {
-            sql = "UPDATE users SET username=?, password=?, role=?, id_ref=? WHERE id_user=?";
-        }
+    // Validasi NIM / ID Dosen kosong
+    if (!role.equals("admin") && idRef.isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            "NIM / ID Dosen tidak boleh kosong!",
+            "Peringatan",
+            javax.swing.JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
 
-        database db = new database();
-        try (java.sql.Connection con = db.koneksi();
-             java.sql.PreparedStatement ps = con.prepareStatement(sql)) {
+    database db = new database();
 
-            if (password.isEmpty()) {
-                ps.setString(1, username);
-                ps.setString(2, role);
-                ps.setString(3, role.equals("admin") ? null : idRef);
-                ps.setInt(4, idUser);
-            } else {
-                ps.setString(1, username);
-                ps.setString(2, password);
-                ps.setString(3, role);
-                ps.setString(4, role.equals("admin") ? null : idRef);
-                ps.setInt(5, idUser);
+    try (java.sql.Connection con = db.koneksi()) {
+
+        // ===============================
+        // VALIDASI DUPLIKAT NIM / ID DOSEN
+        // ===============================
+        if (!role.equals("admin")) {
+
+            String cekSql =
+            "SELECT * FROM users " +
+            "WHERE id_ref=? " +
+            "AND role=? " +
+            "AND id_user != ?";
+
+            java.sql.PreparedStatement cek =
+                con.prepareStatement(cekSql);
+
+            cek.setString(1, idRef);
+            cek.setString(2, role);
+            cek.setInt(3, idUser);
+
+            java.sql.ResultSet rs =
+                cek.executeQuery();
+
+            if (rs.next()) {
+
+                String pesan;
+
+                if (role.equals("mahasiswa")) {
+                    pesan = "NIM sudah digunakan!";
+                } else {
+                    pesan = "ID Dosen sudah digunakan!";
+                }
+
+                javax.swing.JOptionPane.showMessageDialog(
+                    this,
+                    pesan,
+                    "Peringatan",
+                    javax.swing.JOptionPane.WARNING_MESSAGE
+                );
+
+                return;
             }
+        }
+
+        // ===============================
+        // UPDATE USER
+        // ===============================
+        String sql;
+
+        // kalau password kosong
+        if (password.isEmpty()) {
+
+            sql =
+                "UPDATE users " +
+                "SET username=?, role=?, id_ref=? " +
+                "WHERE id_user=?";
+
+            java.sql.PreparedStatement ps =
+                con.prepareStatement(sql);
+
+            ps.setString(1, username);
+            ps.setString(2, role);
+            ps.setString(3,
+                role.equals("admin")
+                ? null
+                : idRef
+            );
+            ps.setInt(4, idUser);
 
             ps.executeUpdate();
 
-            javax.swing.JOptionPane.showMessageDialog(this,
-                "User berhasil diupdate!",
-                "Sukses", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        } else {
 
-            new FormUser().setVisible(true);
-            this.dispose();
+            sql =
+                "UPDATE users " +
+                "SET username=?, password=?, role=?, id_ref=? " +
+                "WHERE id_user=?";
 
-        } catch (java.sql.SQLException e) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                "Error: " + e.getMessage(),
-                "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            java.sql.PreparedStatement ps =
+                con.prepareStatement(sql);
+
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ps.setString(3, role);
+            ps.setString(4,
+                role.equals("admin")
+                ? null
+                : idRef
+            );
+            ps.setInt(5, idUser);
+
+            ps.executeUpdate();
         }
+
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            "User berhasil diupdate!",
+            "Sukses",
+            javax.swing.JOptionPane.INFORMATION_MESSAGE
+        );
+
+        new FormUser().setVisible(true);
+        this.dispose();
+
+    } catch (java.sql.SQLException e) {
+
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            "Error: " + e.getMessage(),
+            "Error",
+            javax.swing.JOptionPane.ERROR_MESSAGE
+        );
+    }
     }//GEN-LAST:event_TambahActionPerformed
 
     /**

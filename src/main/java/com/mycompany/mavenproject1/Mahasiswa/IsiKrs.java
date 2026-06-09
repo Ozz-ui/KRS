@@ -9,7 +9,8 @@ import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import com.mycompany.mavenproject1.Koneksi;
-
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 /**
  *
  * @author user
@@ -40,6 +41,33 @@ public class IsiKrs extends javax.swing.JFrame {
     private String prodi;
     
 
+    private void hitungSKDipilih() {
+
+    int totalDipilih = 0;
+
+    for (int i = 0; i < jTable1.getRowCount(); i++) {
+
+        Boolean pilih =
+                (Boolean) jTable1.getValueAt(i, 0);
+
+        if (pilih != null && pilih) {
+
+            int sks = Integer.parseInt(
+                    jTable1.getValueAt(i, 4)
+                            .toString()
+            );
+
+            totalDipilih += sks;
+        }
+    }
+
+    // tampil realtime
+    sksdipilih.setText(
+            String.valueOf(totalDipilih)
+    );
+}
+    
+    
     private void tampilMatkul() {
 
     DefaultTableModel model =
@@ -68,6 +96,20 @@ public class IsiKrs extends javax.swing.JFrame {
     model.addColumn("SKS");
 
     jTable1.setModel(model);
+    // realtime hitung sks saat checkbox dipilih
+    model.addTableModelListener(
+    new TableModelListener() {
+
+    @Override
+    public void tableChanged(
+            TableModelEvent e
+    ) {
+
+        if (e.getColumn() == 0) {
+            hitungSKDipilih();
+        }
+    }
+    });
 
     try {
 
@@ -138,6 +180,9 @@ public class IsiKrs extends javax.swing.JFrame {
         TotalSKS = new javax.swing.JTextPane();
         Back = new javax.swing.JButton();
         Simpan = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        sksdipilih = new javax.swing.JTextPane();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -175,6 +220,10 @@ public class IsiKrs extends javax.swing.JFrame {
             }
         });
 
+        jScrollPane3.setViewportView(sksdipilih);
+
+        jLabel3.setText("Sks dipilih ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -185,38 +234,52 @@ public class IsiKrs extends javax.swing.JFrame {
                 .addGap(159, 159, 159))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(Simpan)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(Back))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(19, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Simpan)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Back))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(19, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(Back)
-                                    .addComponent(Simpan)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(21, 21, 21)
-                                .addComponent(jLabel2)))
-                        .addGap(6, 6, 6))
+                                    .addComponent(Simpan))
+                                .addGap(0, 12, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel3)))
+                        .addGap(12, 12, 12)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(25, 25, 25))
         );
 
         pack();
@@ -229,9 +292,9 @@ public class IsiKrs extends javax.swing.JFrame {
         nama,
         semester,
         prodi
-).setVisible(true);
+    ).setVisible(true);
 
-dispose();
+    dispose();
     }//GEN-LAST:event_BackActionPerformed
 
     private void SimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SimpanActionPerformed
@@ -262,12 +325,23 @@ dispose();
         }
 
         if (!adaPilihan) {
-            JOptionPane.showMessageDialog(
-                this,
-                "Pilih minimal 1 mata kuliah!"
-            );
-            return;
-        }
+    JOptionPane.showMessageDialog(
+        this,
+        "Pilih minimal 1 mata kuliah!"
+    );
+    return;
+}
+
+// maksimal 24 sks
+    if (totalSKS > 24) {
+
+    JOptionPane.showMessageDialog(
+        this,
+        "Total SKS melebihi batas maksimal 24 SKS!"
+    );
+
+    return;
+    }
 
         // tampil total sks
         TotalSKS.setText(String.valueOf(totalSKS));
@@ -431,8 +505,11 @@ dispose();
     private javax.swing.JTextPane TotalSKS;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextPane sksdipilih;
     // End of variables declaration//GEN-END:variables
 }
