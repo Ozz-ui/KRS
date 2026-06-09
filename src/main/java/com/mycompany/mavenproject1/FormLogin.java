@@ -166,26 +166,29 @@ public class FormLogin extends javax.swing.JFrame {
     }
 
     // Query ke database
-  String sql = "SELECT u.id_ref, "
-           + "u.password, "
-           + "m.nama AS nama_mahasiswa, "
-           + "m.angkatan, "
-           + "m.semester, "
-           + "m.id_prodi, "
-           + "p.nama_prodi, "
-           + "d.nama_dosen "
-           + "FROM users u "
-           + "LEFT JOIN mahasiswa m ON u.id_ref = m.nim "
-           + "LEFT JOIN prodi p ON m.id_prodi = p.id_prodi "
-           + "LEFT JOIN dosen d ON u.id_ref = CAST(d.id_dosen AS CHAR) "
-           + "WHERE u.username = ? AND u.role = ?";
+        String sql =
+          "SELECT u.id_ref, " +
+            "u.password, " +
+            "m.nama AS nama_mahasiswa, " +
+            "m.angkatan, " +
+            "m.semester, " +
+            "m.id_prodi, " +
+            "p.nama_prodi, " +
+            "d.nama_dosen " +
+            "FROM users u " +
+            "LEFT JOIN mahasiswa m ON u.id_ref = m.nim " +
+            "LEFT JOIN prodi p ON m.id_prodi = p.id_prodi " +
+            "LEFT JOIN dosen d ON u.id_ref = CAST(d.id_dosen AS CHAR) " +
+            "WHERE (u.username = ? OR m.nim = ?) " +
+            "AND u.role = ?";
 
     database db = new database();
     try (java.sql.Connection con = db.koneksi();
          java.sql.PreparedStatement ps = con.prepareStatement(sql)) {
 
-        ps.setString(1, username);
-        ps.setString(2, role);
+        ps.setString(1, username); // login pakai username
+        ps.setString(2, username); // login pakai NIM
+        ps.setString(3, role);
         java.sql.ResultSet rs = ps.executeQuery();
 
         if (rs.next()) {
