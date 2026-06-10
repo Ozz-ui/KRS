@@ -50,7 +50,7 @@
                                   <Component id="txtSKS" alignment="0" pref="96" max="32767" attributes="0"/>
                                   <Component id="txtKodeMK" alignment="0" max="32767" attributes="0"/>
                                   <Component id="txtNamaMK" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="txtIdProdi" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="cmbIdProdi" alignment="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -96,7 +96,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="lblIdProdi" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtIdProdi" min="-2" max="-2" attributes="0"/>
+                          <Component id="cmbIdProdi" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -150,8 +150,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="ID Prodi :"/>
       </Properties>
-    </Component>
-    <Component class="java.awt.TextField" name="txtIdProdi">
     </Component>
     <Component class="javax.swing.JButton" name="btnTambah">
       <Properties>
@@ -220,6 +218,14 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="cmbIdProdi">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmbIdProdiActionPerformed"/>
+      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

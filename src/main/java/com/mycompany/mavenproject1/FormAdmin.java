@@ -149,26 +149,32 @@ public class FormAdmin extends javax.swing.JFrame {
 
     private void UserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UserActionPerformed
         new FormUser().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_UserActionPerformed
 
     private void MatkulActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MatkulActionPerformed
        new FormMatkul().setVisible(true);
+       this.dispose();
     }//GEN-LAST:event_MatkulActionPerformed
 
     private void KelasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KelasActionPerformed
        new FormKelas().setVisible(true);
+       this.dispose();
     }//GEN-LAST:event_KelasActionPerformed
 
     private void KrsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KrsActionPerformed
         new FormKRS().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_KrsActionPerformed
 
     private void ProdiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProdiActionPerformed
         new FormProdi().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_ProdiActionPerformed
 
     private void JadwalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JadwalActionPerformed
         new FormJadwal().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_JadwalActionPerformed
 
     private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutActionPerformed

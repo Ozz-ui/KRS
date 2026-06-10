@@ -20,6 +20,7 @@ public class FormMatkul extends javax.swing.JFrame {
      */
     public FormMatkul() {
         initComponents();
+        loadProdi();
         loadData();
         tblMatkul.getSelectionModel().addListSelectionListener(new javax.swing.event.ListSelectionListener() {
         public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -45,7 +46,6 @@ public class FormMatkul extends javax.swing.JFrame {
         lblSKS = new java.awt.Label();
         txtSKS = new java.awt.TextField();
         lblIdProdi = new java.awt.Label();
-        txtIdProdi = new java.awt.TextField();
         btnTambah = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnHapus = new javax.swing.JButton();
@@ -54,6 +54,7 @@ public class FormMatkul extends javax.swing.JFrame {
         scrollMatkul = new javax.swing.JScrollPane();
         tblMatkul = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        cmbIdProdi = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -120,6 +121,12 @@ public class FormMatkul extends javax.swing.JFrame {
             }
         });
 
+        cmbIdProdi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbIdProdiActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -148,7 +155,7 @@ public class FormMatkul extends javax.swing.JFrame {
                                     .addComponent(txtSKS, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)
                                     .addComponent(txtKodeMK, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(txtNamaMK, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtIdProdi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(cmbIdProdi, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 538, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -182,7 +189,7 @@ public class FormMatkul extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lblIdProdi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtIdProdi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cmbIdProdi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnTambah)
@@ -210,7 +217,7 @@ public class FormMatkul extends javax.swing.JFrame {
     ps.setString(1, txtKodeMK.getText());
     ps.setString(2, txtNamaMK.getText());
     ps.setInt(3, Integer.parseInt(txtSKS.getText()));
-    ps.setInt(4, Integer.parseInt(txtIdProdi.getText()));
+    ps.setInt(4, getSelectedIdProdi());
     ps.executeUpdate();
     javax.swing.JOptionPane.showMessageDialog(this, "Data berhasil ditambahkan!");
     bersihForm();
@@ -228,7 +235,7 @@ public class FormMatkul extends javax.swing.JFrame {
         "UPDATE mata_kuliah SET nama_mk=?, sks=?, id_prodi=? WHERE kode_mk=?");
     ps.setString(1, txtNamaMK.getText());
     ps.setInt(2, Integer.parseInt(txtSKS.getText()));
-    ps.setInt(3, Integer.parseInt(txtIdProdi.getText()));
+    ps.setInt(3, getSelectedIdProdi());
     ps.setString(4, txtKodeMK.getText());
     ps.executeUpdate();
     javax.swing.JOptionPane.showMessageDialog(this, "Data berhasil diupdate!");
@@ -268,15 +275,14 @@ if (pilih == javax.swing.JOptionPane.YES_OPTION) {
         this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void cmbIdProdiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbIdProdiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbIdProdiActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -287,10 +293,28 @@ if (pilih == javax.swing.JOptionPane.YES_OPTION) {
         } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
             logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
+ 
         java.awt.EventQueue.invokeLater(() -> new FormMatkul().setVisible(true));
+    }
+    
+    private int getSelectedIdProdi() {
+        String selected = cmbIdProdi.getSelectedItem().toString();
+        return Integer.parseInt(selected.split(" - ")[0].trim());
+    }
+    
+    private void loadProdi() {
+        cmbIdProdi.removeAllItems();
+        try {
+            java.sql.Connection c = getConn();
+            java.sql.Statement s = c.createStatement();
+            java.sql.ResultSet r = s.executeQuery("SELECT id_prodi, nama_prodi FROM prodi ORDER BY id_prodi");
+            while (r.next()) {
+                cmbIdProdi.addItem(r.getInt("id_prodi") + " - " + r.getString("nama_prodi"));
+            }
+            c.close();
+        } catch (java.sql.SQLException ex) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Gagal load prodi: " + ex.getMessage());
+        }
     }
     
       private void loadData() {
@@ -323,7 +347,9 @@ if (pilih == javax.swing.JOptionPane.YES_OPTION) {
         txtKodeMK.setText("");
         txtNamaMK.setText("");
         txtSKS.setText("");
-        txtIdProdi.setText("");
+        if (cmbIdProdi.getItemCount() > 0) {
+            cmbIdProdi.setSelectedIndex(0);
+        }
         tblMatkul.clearSelection();
     }
 
@@ -334,7 +360,13 @@ if (pilih == javax.swing.JOptionPane.YES_OPTION) {
             txtKodeMK.setText(model.getValueAt(row, 0).toString());
             txtNamaMK.setText(model.getValueAt(row, 1).toString());
             txtSKS.setText(model.getValueAt(row, 2).toString());
-            txtIdProdi.setText(model.getValueAt(row, 3).toString());
+            String idProdi = model.getValueAt(row, 3).toString();
+            for (int i = 0; i < cmbIdProdi.getItemCount(); i++) {
+                if (cmbIdProdi.getItemAt(i).startsWith(idProdi + " - ")) {
+                    cmbIdProdi.setSelectedIndex(i);
+                    break;
+                }
+            }
         }
     }
 
@@ -344,6 +376,7 @@ if (pilih == javax.swing.JOptionPane.YES_OPTION) {
     private javax.swing.JButton btnHapus;
     private javax.swing.JButton btnTambah;
     private javax.swing.JButton btnUpdate;
+    private javax.swing.JComboBox<String> cmbIdProdi;
     private javax.swing.JButton jButton1;
     private java.awt.ScrollPane jScrollPane1;
     private javax.swing.JLabel lblHeader;
@@ -353,7 +386,6 @@ if (pilih == javax.swing.JOptionPane.YES_OPTION) {
     private java.awt.Label lblSKS;
     private javax.swing.JScrollPane scrollMatkul;
     private javax.swing.JTable tblMatkul;
-    private java.awt.TextField txtIdProdi;
     private java.awt.TextField txtKodeMK;
     private java.awt.TextField txtNamaMK;
     private java.awt.TextField txtSKS;

@@ -253,6 +253,7 @@ public class FormLogin extends javax.swing.JFrame {
                 if (role.equals("admin")) {
 
     new FormAdmin().setVisible(true);
+    this.dispose();
 
 }
     String namaTampil;
