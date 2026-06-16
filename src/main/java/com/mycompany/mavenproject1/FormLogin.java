@@ -169,20 +169,21 @@ public class FormLogin extends javax.swing.JFrame {
 
     // Query ke database
         String sql =
-          "SELECT u.id_ref, " +
-            "u.password, " +
-            "m.nama AS nama_mahasiswa, " +
-            "m.angkatan, " +
-            "m.semester, " +
-            "m.id_prodi, " +
-            "p.nama_prodi, " +
-            "d.nama_dosen " +
-            "FROM users u " +
-            "LEFT JOIN mahasiswa m ON u.id_ref = m.nim " +
-            "LEFT JOIN prodi p ON m.id_prodi = p.id_prodi " +
-            "LEFT JOIN dosen d ON u.id_ref = CAST(d.id_dosen AS CHAR) " +
-            "WHERE (u.username = ? OR m.nim = ?) " +
-            "AND u.role = ?";
+        "SELECT u.username, " +
+        "u.id_ref, " +
+        "u.password, " +
+        "m.nama AS nama_mahasiswa, " +
+        "m.angkatan, " +
+        "m.semester, " +
+        "m.id_prodi, " +
+        "p.nama_prodi, " +
+        "d.nama_dosen " +
+        "FROM users u " +
+        "LEFT JOIN mahasiswa m ON u.id_ref = m.nim " +
+        "LEFT JOIN prodi p ON m.id_prodi = p.id_prodi " +
+        "LEFT JOIN dosen d ON u.id_ref = CAST(d.id_dosen AS CHAR) " +
+        "WHERE (u.username = ? OR u.id_ref = ?) " +
+        "AND u.role = ?";
 
     database db = new database();
     try (java.sql.Connection con = db.koneksi();
@@ -306,43 +307,32 @@ public class FormLogin extends javax.swing.JFrame {
 } else if (role.equals("dosen")) {
 
     String idDosen = rs.getString("id_ref");
+
+    // Ambil nama dosen dari tabel dosen
     String namaDosen = rs.getString("nama_dosen");
 
-    // jika data dosen belum ada
-    if (namaDosen == null) {
-
-        String sqlInsert =
-            "INSERT INTO dosen (id_dosen, nama_dosen) VALUES (?, ?)";
-
-        java.sql.PreparedStatement psInsert =
-                con.prepareStatement(sqlInsert);
-
-        psInsert.setInt(1, Integer.parseInt(idDosen));
-        psInsert.setString(2, username);
-
-        psInsert.executeUpdate();
-
-        namaDosen = username;
+    // Kalau kosong, ambil username akun dari database
+    if (namaDosen == null || namaDosen.trim().isEmpty()) {
+        namaDosen = rs.getString("username");
     }
 
     javax.swing.JOptionPane.showMessageDialog(
-            this,
-            "Selamat datang, " + namaDosen + "!",
-            "Login Berhasil",
-            javax.swing.JOptionPane.INFORMATION_MESSAGE
+        this,
+        "Selamat datang, " + namaDosen + "!",
+        "Login Berhasil",
+        javax.swing.JOptionPane.INFORMATION_MESSAGE
     );
 
     new DashboardDosen(
-            Integer.parseInt(idDosen),
-            namaDosen
+        Integer.parseInt(idDosen),
+        namaDosen
     ).setVisible(true);
 
     this.dispose();
 }
 
-this.dispose();
-
-
+    
+    
             } else {
                 javax.swing.JOptionPane.showMessageDialog(this,
                     "Password salah!",

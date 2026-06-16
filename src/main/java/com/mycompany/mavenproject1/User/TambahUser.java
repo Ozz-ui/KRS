@@ -242,34 +242,43 @@ public class TambahUser extends javax.swing.JFrame {
         // ===============================
         // VALIDASI NIM TIDAK BOLEH SAMA
         // ===============================
-        if (role.equals("mahasiswa")) {
+        // ===============================
+        // VALIDASI ID_REF TIDAK BOLEH SAMA
+        // ===============================
+        if (!role.equals("admin")) {
 
-            String cekNim =
-                "SELECT COUNT(*) FROM users " +
-                "WHERE role='mahasiswa' " +
-                "AND id_ref=?";
+         String cekId =
+        "SELECT COUNT(*) FROM users " +
+        "WHERE id_ref=?";
 
-            java.sql.PreparedStatement psCek =
-                con.prepareStatement(cekNim);
+          java.sql.PreparedStatement psCek =
+          con.prepareStatement(cekId);
 
-            psCek.setString(1, idRef);
+          psCek.setString(1, idRef);
 
-            java.sql.ResultSet rs =
-                psCek.executeQuery();
+          java.sql.ResultSet rs =
+          psCek.executeQuery();
 
-            if (rs.next() && rs.getInt(1) > 0) {
+          if (rs.next() && rs.getInt(1) > 0) {
 
-                javax.swing.JOptionPane.showMessageDialog(
-                    this,
-                    "NIM sudah digunakan!\nMasukkan NIM lain.",
-                    "Peringatan",
-                    javax.swing.JOptionPane.WARNING_MESSAGE
-                );
+          String pesan;
 
-                return;
-            }
+             if (role.equals("mahasiswa")) {
+            pesan = "NIM sudah digunakan!";
+           } else {
+            pesan = "ID Dosen sudah digunakan!";
+           }
+
+            javax.swing.JOptionPane.showMessageDialog(
+            this,
+            pesan,
+            "Peringatan",
+            javax.swing.JOptionPane.WARNING_MESSAGE
+                  );
+
+            return;
+          }
         }
-
         // ===============================
         // SIMPAN USER
         // ===============================

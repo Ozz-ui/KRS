@@ -271,15 +271,13 @@ public class EditUser extends javax.swing.JFrame {
             String cekSql =
             "SELECT * FROM users " +
             "WHERE id_ref=? " +
-            "AND role=? " +
             "AND id_user != ?";
 
             java.sql.PreparedStatement cek =
                 con.prepareStatement(cekSql);
 
             cek.setString(1, idRef);
-            cek.setString(2, role);
-            cek.setInt(3, idUser);
+            cek.setInt(2, idUser);
 
             java.sql.ResultSet rs =
                 cek.executeQuery();
