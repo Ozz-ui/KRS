@@ -4,6 +4,8 @@
  */
 package com.mycompany.mavenproject1;
 
+import Form_Dosen.DashboardDosen;
+
 /**
  *
  * @author nicos
@@ -303,11 +305,39 @@ public class FormLogin extends javax.swing.JFrame {
 
 } else if (role.equals("dosen")) {
 
-    // nanti dashboard dosen
+    String idDosen = rs.getString("id_ref");
+    String namaDosen = rs.getString("nama_dosen");
+
+    // jika data dosen belum ada
+    if (namaDosen == null) {
+
+        String sqlInsert =
+            "INSERT INTO dosen (id_dosen, nama_dosen) VALUES (?, ?)";
+
+        java.sql.PreparedStatement psInsert =
+                con.prepareStatement(sqlInsert);
+
+        psInsert.setInt(1, Integer.parseInt(idDosen));
+        psInsert.setString(2, username);
+
+        psInsert.executeUpdate();
+
+        namaDosen = username;
+    }
+
     javax.swing.JOptionPane.showMessageDialog(
             this,
-            "Login dosen berhasil"
+            "Selamat datang, " + namaDosen + "!",
+            "Login Berhasil",
+            javax.swing.JOptionPane.INFORMATION_MESSAGE
     );
+
+    new DashboardDosen(
+            Integer.parseInt(idDosen),
+            namaDosen
+    ).setVisible(true);
+
+    this.dispose();
 }
 
 this.dispose();
