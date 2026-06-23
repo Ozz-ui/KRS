@@ -32,33 +32,31 @@ public class FormUser extends javax.swing.JFrame {
     }
     
     private void loadData() {
-    DefaultTableModel model = new DefaultTableModel();
-    model.addColumn("ID");
-    model.addColumn("Username");
-    model.addColumn("Role");
-    model.addColumn("ID Ref");
+        javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel();
+        model.addColumn("ID");
+        model.addColumn("Username");
+        model.addColumn("Dibuat");
 
-    database db = new database();
-    try (Connection con = db.koneksi();
-         Statement st = con.createStatement();
-         ResultSet rs = st.executeQuery("SELECT * FROM users")) {
+        database db = new database();
+        try (java.sql.Connection con = db.koneksi();
+             java.sql.Statement st = con.createStatement();
+             java.sql.ResultSet rs = st.executeQuery("SELECT id_user, username, created_at FROM users")) {
 
-        while (rs.next()) {
-            model.addRow(new Object[]{
-                rs.getInt("id_user"),
-                rs.getString("username"),
-                rs.getString("role"),
-                rs.getString("id_ref")
-            });
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    rs.getInt("id_user"),
+                    rs.getString("username"),
+                    rs.getString("created_at")
+                });
+            }
+
+        } catch (java.sql.SQLException e) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "Error: " + e.getMessage(), "Error",
+                javax.swing.JOptionPane.ERROR_MESSAGE);
         }
 
-    } catch (SQLException e) {
-        javax.swing.JOptionPane.showMessageDialog(this,
-            "Error: " + e.getMessage(), "Error",
-            javax.swing.JOptionPane.ERROR_MESSAGE);
-    }
-
-    tbUser.setModel(model); // ganti jTable1 dengan nama JTable kamu
+        tbUser.setModel(model);
 }
 
     /**
@@ -188,12 +186,10 @@ public class FormUser extends javax.swing.JFrame {
                 "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
             return;
         }
-        int idUser      = (int) tbUser.getValueAt(baris, 0);
+        int idUser      = (int)    tbUser.getValueAt(baris, 0);
         String username = (String) tbUser.getValueAt(baris, 1);
-        String role     = (String) tbUser.getValueAt(baris, 2);
-        String idRef    = (String) tbUser.getValueAt(baris, 3);
 
-        new EditUser(idUser, username, role, idRef).setVisible(true);
+        new EditUser(idUser, username).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_EditActionPerformed
 

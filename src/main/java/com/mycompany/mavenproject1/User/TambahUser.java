@@ -19,8 +19,6 @@ public class TambahUser extends javax.swing.JFrame {
      */
     public TambahUser() {
         initComponents();
-        id_reff.setVisible(false);
-        kolomid.setVisible(false);
     }
 
     /**
@@ -39,12 +37,6 @@ public class TambahUser extends javax.swing.JFrame {
         fieldNama = new javax.swing.JTextField();
         labelPassword = new javax.swing.JLabel();
         fieldPassword = new javax.swing.JPasswordField();
-        labelRole = new javax.swing.JLabel();
-        Admin = new javax.swing.JRadioButton();
-        Mahasiswa = new javax.swing.JRadioButton();
-        Dosen = new javax.swing.JRadioButton();
-        id_reff = new javax.swing.JLabel();
-        kolomid = new javax.swing.JTextField();
         Tambah = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -65,37 +57,6 @@ public class TambahUser extends javax.swing.JFrame {
         labelPassword.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         labelPassword.setText("Password");
 
-        labelRole.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        labelRole.setText("Role");
-
-        buttonGroup1.add(Admin);
-        Admin.setSelected(true);
-        Admin.setText("Admin");
-        Admin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AdminActionPerformed(evt);
-            }
-        });
-
-        buttonGroup1.add(Mahasiswa);
-        Mahasiswa.setText("Mahasiswa");
-        Mahasiswa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MahasiswaActionPerformed(evt);
-            }
-        });
-
-        buttonGroup1.add(Dosen);
-        Dosen.setText("Dosen");
-        Dosen.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DosenActionPerformed(evt);
-            }
-        });
-
-        id_reff.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        id_reff.setText("Id Reff");
-
         Tambah.setBackground(new java.awt.Color(26, 86, 160));
         Tambah.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         Tambah.setForeground(new java.awt.Color(255, 255, 255));
@@ -114,28 +75,13 @@ public class TambahUser extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(kolomid)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(Admin)
-                                .addGap(40, 40, 40)
-                                .addComponent(Mahasiswa)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
-                                .addComponent(Dosen))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jButton1)
-                                        .addComponent(labelNama)
-                                        .addComponent(fieldNama, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
-                                        .addComponent(labelPassword)
-                                        .addComponent(fieldPassword))
-                                    .addComponent(labelRole))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(id_reff)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton1)
+                            .addComponent(labelNama)
+                            .addComponent(fieldNama, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
+                            .addComponent(labelPassword)
+                            .addComponent(fieldPassword))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel1)
@@ -143,7 +89,7 @@ public class TambahUser extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(49, 49, 49)
                 .addComponent(Tambah)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 60, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,20 +106,9 @@ public class TambahUser extends javax.swing.JFrame {
                 .addComponent(labelPassword)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(fieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(labelRole)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Admin)
-                    .addComponent(Mahasiswa)
-                    .addComponent(Dosen))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(id_reff)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(kolomid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(27, 27, 27)
                 .addComponent(Tambah, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
@@ -184,54 +119,15 @@ public class TambahUser extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void AdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdminActionPerformed
-        id_reff.setVisible(false);
-        kolomid.setVisible(false);
-        kolomid.setText("");
-    }//GEN-LAST:event_AdminActionPerformed
-
-    private void MahasiswaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MahasiswaActionPerformed
-        id_reff.setText("NIM");
-        kolomid.setVisible(true);
-        id_reff.setVisible(true);
-    }//GEN-LAST:event_MahasiswaActionPerformed
-
-    private void DosenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DosenActionPerformed
-        id_reff.setText("Id Dosen");
-        kolomid.setVisible(true);
-        id_reff.setVisible(true);
-    }//GEN-LAST:event_DosenActionPerformed
-
     private void TambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TambahActionPerformed
-        String username = fieldNama.getText().trim();
+       String username = fieldNama.getText().trim();
     String password = new String(fieldPassword.getPassword()).trim();
-    String role = "";
-    String idRef = kolomid.getText().trim();
-
-    // Tentukan role
-    if (Admin.isSelected()) {
-        role = "admin";
-    } else if (Mahasiswa.isSelected()) {
-        role = "mahasiswa";
-    } else if (Dosen.isSelected()) {
-        role = "dosen";
-    }
 
     // Validasi kosong
     if (username.isEmpty() || password.isEmpty()) {
         javax.swing.JOptionPane.showMessageDialog(this,
             "Username dan password tidak boleh kosong!",
-            "Peringatan",
-            javax.swing.JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-
-    // Validasi NIM / ID dosen kosong
-    if (!role.equals("admin") && idRef.isEmpty()) {
-        javax.swing.JOptionPane.showMessageDialog(this,
-            "NIM / ID Dosen tidak boleh kosong!",
-            "Peringatan",
-            javax.swing.JOptionPane.WARNING_MESSAGE);
+            "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
         return;
     }
 
@@ -239,87 +135,36 @@ public class TambahUser extends javax.swing.JFrame {
 
     try (java.sql.Connection con = db.koneksi()) {
 
-        // ===============================
-        // VALIDASI NIM TIDAK BOLEH SAMA
-        // ===============================
-        // ===============================
-        // VALIDASI ID_REF TIDAK BOLEH SAMA
-        // ===============================
-        if (!role.equals("admin")) {
-
-         String cekId =
-        "SELECT COUNT(*) FROM users " +
-        "WHERE id_ref=?";
-
-          java.sql.PreparedStatement psCek =
-          con.prepareStatement(cekId);
-
-          psCek.setString(1, idRef);
-
-          java.sql.ResultSet rs =
-          psCek.executeQuery();
-
-          if (rs.next() && rs.getInt(1) > 0) {
-
-          String pesan;
-
-             if (role.equals("mahasiswa")) {
-            pesan = "NIM sudah digunakan!";
-           } else {
-            pesan = "ID Dosen sudah digunakan!";
-           }
-
-            javax.swing.JOptionPane.showMessageDialog(
-            this,
-            pesan,
-            "Peringatan",
-            javax.swing.JOptionPane.WARNING_MESSAGE
-                  );
-
+        // Cek duplikat username
+        String cekSql = "SELECT COUNT(*) FROM users WHERE username = ?";
+        java.sql.PreparedStatement psCek = con.prepareStatement(cekSql);
+        psCek.setString(1, username);
+        java.sql.ResultSet rs = psCek.executeQuery();
+        if (rs.next() && rs.getInt(1) > 0) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "Username sudah digunakan!",
+                "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
             return;
-          }
         }
-        // ===============================
-        // SIMPAN USER
-        // ===============================
-        String sql =
-            "INSERT INTO users " +
-            "(username, password, role, id_ref) " +
-            "VALUES (?, ?, ?, ?)";
 
-        java.sql.PreparedStatement ps =
-            con.prepareStatement(sql);
-
+        // Simpan ke tabel users
+        String sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+        java.sql.PreparedStatement ps = con.prepareStatement(sql);
         ps.setString(1, username);
         ps.setString(2, password);
-        ps.setString(3, role);
-        ps.setString(
-            4,
-            role.equals("admin")
-                ? null
-                : idRef
-        );
-
         ps.executeUpdate();
 
-        javax.swing.JOptionPane.showMessageDialog(
-            this,
-            "User berhasil ditambahkan!",
-            "Sukses",
-            javax.swing.JOptionPane.INFORMATION_MESSAGE
-        );
+        javax.swing.JOptionPane.showMessageDialog(this,
+            "Admin berhasil ditambahkan!",
+            "Sukses", javax.swing.JOptionPane.INFORMATION_MESSAGE);
 
         new FormUser().setVisible(true);
         this.dispose();
 
     } catch (java.sql.SQLException e) {
-
-        javax.swing.JOptionPane.showMessageDialog(
-            this,
+        javax.swing.JOptionPane.showMessageDialog(this,
             "Error: " + e.getMessage(),
-            "Error",
-            javax.swing.JOptionPane.ERROR_MESSAGE
-        );
+            "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
     }
     }//GEN-LAST:event_TambahActionPerformed
 
@@ -349,19 +194,13 @@ public class TambahUser extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JRadioButton Admin;
-    private javax.swing.JRadioButton Dosen;
-    private javax.swing.JRadioButton Mahasiswa;
     private javax.swing.JButton Tambah;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JTextField fieldNama;
     private javax.swing.JPasswordField fieldPassword;
-    private javax.swing.JLabel id_reff;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField kolomid;
     private javax.swing.JLabel labelNama;
     private javax.swing.JLabel labelPassword;
-    private javax.swing.JLabel labelRole;
     // End of variables declaration//GEN-END:variables
 }

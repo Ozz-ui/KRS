@@ -154,203 +154,133 @@ public class FormLogin extends javax.swing.JFrame {
         String username = jTextField1.getText().trim();
         String password = new String(jPasswordField1.getPassword()).trim();
 
-    // Tentukan role
-    String role = "mahasiswa";
-    if (jRadioButton2.isSelected()) role = "dosen";
-    if (jRadioButton3.isSelected()) role = "admin";
+        // Tentukan role
+        String role = "mahasiswa";
+        if (jRadioButton2.isSelected()) role = "dosen";
+        if (jRadioButton3.isSelected()) role = "admin";
 
-    // Validasi kosong
-    if (username.isEmpty() || password.isEmpty()) {
-        javax.swing.JOptionPane.showMessageDialog(this,
-            "Username dan password tidak boleh kosong!",
-            "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-
-    // Query ke database
-        String sql =
-        "SELECT u.username, " +
-        "u.id_ref, " +
-        "u.password, " +
-        "m.nama AS nama_mahasiswa, " +
-        "m.angkatan, " +
-        "m.semester, " +
-        "m.id_prodi, " +
-        "p.nama_prodi, " +
-        "d.nama_dosen " +
-        "FROM users u " +
-        "LEFT JOIN mahasiswa m ON u.id_ref = m.nim " +
-        "LEFT JOIN prodi p ON m.id_prodi = p.id_prodi " +
-        "LEFT JOIN dosen d ON u.id_ref = CAST(d.id_dosen AS CHAR) " +
-        "WHERE (u.username = ? OR u.id_ref = ?) " +
-        "AND u.role = ?";
-
-    database db = new database();
-    try (java.sql.Connection con = db.koneksi();
-         java.sql.PreparedStatement ps = con.prepareStatement(sql)) {
-
-        ps.setString(1, username); // login pakai username
-        ps.setString(2, username); // login pakai NIM
-        ps.setString(3, role);
-        java.sql.ResultSet rs = ps.executeQuery();
-
-        if (rs.next()) {
-                System.out.println("id_ref = " + rs.getString("id_ref"));
-                System.out.println("nama_mahasiswa = " + rs.getString("nama_mahasiswa"));
-                System.out.println("semester = " + rs.getString("semester"));
-                System.out.println("prodi = " + rs.getString("id_prodi"));
-            String passDB = rs.getString("password");
-            if (password.equals(passDB)) {
-                String idRef = rs.getString("id_ref");
-                
-                if (role.equals("mahasiswa")) {
-
-    String nim = rs.getString("id_ref");
-    String namaMhs = rs.getString("nama_mahasiswa");
-    String semester = rs.getString("semester");
-    String prodi = rs.getString("nama_prodi");
-
-    // kalau mahasiswa belum ada di tabel mahasiswa
-    if (namaMhs == null) {
-
-        String sqlInsert =
-        "INSERT INTO mahasiswa " +
-        "(nim, nama, angkatan, id_prodi, semester) " +
-        "VALUES (?, ?, ?, ?, ?)";
-
-        java.sql.PreparedStatement psInsert =
-                con.prepareStatement(sqlInsert);
-
-        psInsert.setString(1, nim);
-        psInsert.setString(2, username);
-        psInsert.setInt(3, 2024);
-        psInsert.setInt(4, 1);
-        psInsert.setInt(5, 1);
-
-        psInsert.executeUpdate();
-
-        // isi default setelah insert
-        namaMhs = username;
-        semester = "1";
-        prodi = "Teknik Informatika";
-    }
-
-    // popup setelah data aman
-    javax.swing.JOptionPane.showMessageDialog(
-        this,
-        "Selamat datang, " + namaMhs + "!",
-        "Login Berhasil",
-        javax.swing.JOptionPane.INFORMATION_MESSAGE
-    );
-
-    new com.mycompany.mavenproject1.Mahasiswa.Dahboard(
-        nim,
-        namaMhs,
-        semester,
-        prodi
-    ).setVisible(true);
-
-    this.dispose();
-}
-                
-                if (role.equals("admin")) {
-
-    new FormAdmin().setVisible(true);
-    this.dispose();
-
-}
-    String namaTampil;
-
-    if (role.equals("admin")) {
-
-    new FormAdmin().setVisible(true);
-
-}   else if (role.equals("mahasiswa")) {
-
-    String nim = rs.getString("id_ref");
-    String namaMhs = rs.getString("nama_mahasiswa");
-    String semester = rs.getString("semester");
-    String prodi = rs.getString("nama_prodi");
-
-    // kalau data mahasiswa belum ada
-    if (namaMhs == null) {
-
-    String sqlInsert =
-    "INSERT INTO mahasiswa " +
-    "(nim, nama, angkatan, id_prodi, semester) " +
-    "VALUES (?, ?, ?, ?, ?)";
-
-    java.sql.PreparedStatement psInsert =
-            con.prepareStatement(sqlInsert);
-
-    psInsert.setString(1, nim);
-    psInsert.setString(2, username); // nama sementara
-    psInsert.setInt(3, 2024); // default angkatan
-    psInsert.setInt(4, 1); // default prodi TI
-    psInsert.setInt(5, 1); // semester awal
-
-    psInsert.executeUpdate();
-
-    // isi ulang variabel
-    namaMhs = username;
-    semester = "1";
-    prodi = "Teknik Informatika";
-}
-
-    new com.mycompany.mavenproject1.Mahasiswa.Dahboard(
-        nim,
-        namaMhs,
-        semester,
-        prodi
-        ).setVisible(true);
-
-} else if (role.equals("dosen")) {
-
-    String idDosen = rs.getString("id_ref");
-
-    // Ambil nama dosen dari tabel dosen
-    String namaDosen = rs.getString("nama_dosen");
-
-    // Kalau kosong, ambil username akun dari database
-    if (namaDosen == null || namaDosen.trim().isEmpty()) {
-        namaDosen = rs.getString("username");
-    }
-
-    javax.swing.JOptionPane.showMessageDialog(
-        this,
-        "Selamat datang, " + namaDosen + "!",
-        "Login Berhasil",
-        javax.swing.JOptionPane.INFORMATION_MESSAGE
-    );
-
-    new DashboardDosen(
-        Integer.parseInt(idDosen),
-        namaDosen
-    ).setVisible(true);
-
-    this.dispose();
-}
-
-    
-    
-            } else {
-                javax.swing.JOptionPane.showMessageDialog(this,
-                    "Password salah!",
-                    "Login Gagal", javax.swing.JOptionPane.ERROR_MESSAGE);
-                jPasswordField1.setText("");
-            }
-        } else {
+        // Validasi kosong
+        if (username.isEmpty() || password.isEmpty()) {
             javax.swing.JOptionPane.showMessageDialog(this,
-                "Akun tidak ditemukan atau role tidak sesuai.",
-                "Login Gagal", javax.swing.JOptionPane.ERROR_MESSAGE);
+                "Username dan password tidak boleh kosong!",
+                "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
         }
 
-    } catch (java.sql.SQLException e) {
-        javax.swing.JOptionPane.showMessageDialog(this,
-            "Gagal koneksi ke database: " + e.getMessage(),
-            "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
-        System.err.println("Error: " + e.getMessage());
-    }
+        database db = new database();
+
+        try (java.sql.Connection con = db.koneksi()) {
+
+            if (role.equals("admin")) {
+                // ===============================
+                // LOGIN ADMIN → tabel users
+                // ===============================
+                String sql = "SELECT * FROM users WHERE username = ?";
+                java.sql.PreparedStatement ps = con.prepareStatement(sql);
+                ps.setString(1, username);
+                java.sql.ResultSet rs = ps.executeQuery();
+
+                if (rs.next()) {
+                    if (password.equals(rs.getString("password"))) {
+                        javax.swing.JOptionPane.showMessageDialog(this,
+                            "Selamat datang, " + username + "!",
+                            "Login Berhasil", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                        new FormAdmin().setVisible(true);
+                        this.dispose();
+                    } else {
+                        javax.swing.JOptionPane.showMessageDialog(this,
+                            "Password salah!", "Login Gagal",
+                            javax.swing.JOptionPane.ERROR_MESSAGE);
+                        jPasswordField1.setText("");
+                    }
+                } else {
+                    javax.swing.JOptionPane.showMessageDialog(this,
+                        "Akun admin tidak ditemukan.", "Login Gagal",
+                        javax.swing.JOptionPane.ERROR_MESSAGE);
+                }
+
+            } else if (role.equals("mahasiswa")) {
+                // ===============================
+                // LOGIN MAHASISWA → tabel mahasiswa
+                // ===============================
+                String sql =
+                    "SELECT m.nim, m.nama, m.semester, m.password, p.nama_prodi " +
+                    "FROM mahasiswa m " +
+                    "LEFT JOIN prodi p ON m.id_prodi = p.id_prodi " +
+                    "WHERE m.nim = ? OR m.nama = ?";
+                java.sql.PreparedStatement ps = con.prepareStatement(sql);
+                ps.setString(1, username);
+                ps.setString(2, username);
+                java.sql.ResultSet rs = ps.executeQuery();
+
+                if (rs.next()) {
+                    if (password.equals(rs.getString("password"))) {
+                        String nim       = rs.getString("nim");
+                        String nama      = rs.getString("nama");
+                        String semester  = rs.getString("semester");
+                        String namaProdi = rs.getString("nama_prodi");
+                        if (namaProdi == null) namaProdi = "-";
+
+                        javax.swing.JOptionPane.showMessageDialog(this,
+                            "Selamat datang, " + nama + "!",
+                            "Login Berhasil", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                        new com.mycompany.mavenproject1.Mahasiswa.Dahboard(
+                            nim, nama, semester, namaProdi
+                        ).setVisible(true);
+                        this.dispose();
+                    } else {
+                        javax.swing.JOptionPane.showMessageDialog(this,
+                            "Password salah!", "Login Gagal",
+                            javax.swing.JOptionPane.ERROR_MESSAGE);
+                        jPasswordField1.setText("");
+                    }
+                } else {
+                    javax.swing.JOptionPane.showMessageDialog(this,
+                        "Akun mahasiswa tidak ditemukan.", "Login Gagal",
+                        javax.swing.JOptionPane.ERROR_MESSAGE);
+                }
+
+            } else {
+                // ===============================
+                // LOGIN DOSEN → tabel dosen
+                // ===============================
+                String sql =
+                    "SELECT d.id_dosen, d.nama_dosen, d.password " +
+                    "FROM dosen d " +
+                    "WHERE d.nidn = ? OR d.nama_dosen = ?";
+                java.sql.PreparedStatement ps = con.prepareStatement(sql);
+                ps.setString(1, username);
+                ps.setString(2, username);
+                java.sql.ResultSet rs = ps.executeQuery();
+
+                if (rs.next()) {
+                    if (password.equals(rs.getString("password"))) {
+                        int    idDosen   = rs.getInt("id_dosen");
+                        String namaDosen = rs.getString("nama_dosen");
+
+                        javax.swing.JOptionPane.showMessageDialog(this,
+                            "Selamat datang, " + namaDosen + "!",
+                            "Login Berhasil", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                        new DashboardDosen(idDosen, namaDosen).setVisible(true);
+                        this.dispose();
+                    } else {
+                        javax.swing.JOptionPane.showMessageDialog(this,
+                            "Password salah!", "Login Gagal",
+                            javax.swing.JOptionPane.ERROR_MESSAGE);
+                        jPasswordField1.setText("");
+                    }
+                } else {
+                    javax.swing.JOptionPane.showMessageDialog(this,
+                        "Akun dosen tidak ditemukan.", "Login Gagal",
+                        javax.swing.JOptionPane.ERROR_MESSAGE);
+                }
+            }
+
+        } catch (java.sql.SQLException e) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "Gagal koneksi ke database: " + e.getMessage(),
+                "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

@@ -17,29 +17,10 @@ public class EditUser extends javax.swing.JFrame {
     /**
      * Creates new form TambahUser
      */
-    public EditUser(int idUser, String username, String role, String idRef) {
+    public EditUser(int idUser, String username) {
         initComponents();
         this.idUser = idUser;
         fieldNama.setText(username);
-        kolomid.setText(idRef != null ? idRef : "");
-        id_reff.setVisible(false);
-        kolomid.setVisible(false);
-        
-        if (role.equals("admin")) {
-            Admin.setSelected(true);
-            id_reff.setVisible(false);
-            kolomid.setVisible(false);
-        } else if (role.equals("mahasiswa")) {
-            Mahasiswa.setSelected(true);
-            id_reff.setText("NIM");
-            id_reff.setVisible(true);
-            kolomid.setVisible(true);
-        } else if (role.equals("dosen")) {
-            Dosen.setSelected(true);
-            id_reff.setText("ID Dosen");
-            id_reff.setVisible(true);
-            kolomid.setVisible(true);
-        }
     }
 
     /**
@@ -58,12 +39,6 @@ public class EditUser extends javax.swing.JFrame {
         fieldNama = new javax.swing.JTextField();
         labelPassword = new javax.swing.JLabel();
         fieldPassword = new javax.swing.JPasswordField();
-        labelRole = new javax.swing.JLabel();
-        Admin = new javax.swing.JRadioButton();
-        Mahasiswa = new javax.swing.JRadioButton();
-        Dosen = new javax.swing.JRadioButton();
-        id_reff = new javax.swing.JLabel();
-        kolomid = new javax.swing.JTextField();
         Tambah = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -84,37 +59,6 @@ public class EditUser extends javax.swing.JFrame {
         labelPassword.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         labelPassword.setText("Password");
 
-        labelRole.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        labelRole.setText("Role");
-
-        buttonGroup1.add(Admin);
-        Admin.setSelected(true);
-        Admin.setText("Admin");
-        Admin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AdminActionPerformed(evt);
-            }
-        });
-
-        buttonGroup1.add(Mahasiswa);
-        Mahasiswa.setText("Mahasiswa");
-        Mahasiswa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MahasiswaActionPerformed(evt);
-            }
-        });
-
-        buttonGroup1.add(Dosen);
-        Dosen.setText("Dosen");
-        Dosen.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DosenActionPerformed(evt);
-            }
-        });
-
-        id_reff.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        id_reff.setText("Id Reff");
-
         Tambah.setBackground(new java.awt.Color(26, 86, 160));
         Tambah.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         Tambah.setForeground(new java.awt.Color(255, 255, 255));
@@ -130,40 +74,23 @@ public class EditUser extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton1)
+                    .addComponent(labelNama)
+                    .addComponent(fieldNama, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
+                    .addComponent(labelPassword)
+                    .addComponent(fieldPassword))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(kolomid)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(Admin)
-                                .addGap(40, 40, 40)
-                                .addComponent(Mahasiswa)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
-                                .addComponent(Dosen))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jButton1)
-                                        .addComponent(labelNama)
-                                        .addComponent(fieldNama, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
-                                        .addComponent(labelPassword)
-                                        .addComponent(fieldPassword))
-                                    .addComponent(labelRole))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(id_reff)
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(93, 93, 93)
+                        .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(93, 93, 93)
-                                .addComponent(jLabel1))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(69, 69, 69)
-                                .addComponent(Tambah)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGap(69, 69, 69)
+                        .addComponent(Tambah)))
+                .addContainerGap(72, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,20 +107,9 @@ public class EditUser extends javax.swing.JFrame {
                 .addComponent(labelPassword)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(fieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(labelRole)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Admin)
-                    .addComponent(Mahasiswa)
-                    .addComponent(Dosen))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(id_reff)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(kolomid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(27, 27, 27)
                 .addComponent(Tambah, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();
@@ -204,174 +120,63 @@ public class EditUser extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void AdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdminActionPerformed
-        id_reff.setVisible(false);
-        kolomid.setVisible(false);
-        kolomid.setText("");
-    }//GEN-LAST:event_AdminActionPerformed
-
-    private void MahasiswaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MahasiswaActionPerformed
-        id_reff.setText("NIM");
-        kolomid.setVisible(true);
-        id_reff.setVisible(true);
-    }//GEN-LAST:event_MahasiswaActionPerformed
-
-    private void DosenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DosenActionPerformed
-        id_reff.setText("Id Dosen");
-        kolomid.setVisible(true);
-        id_reff.setVisible(true);
-    }//GEN-LAST:event_DosenActionPerformed
-
     private void TambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TambahActionPerformed
-         String username = fieldNama.getText().trim();
-    String password = new String(fieldPassword.getPassword()).trim();
-    String role = "";
-    String idRef = kolomid.getText().trim();
+        String username = fieldNama.getText().trim();
+        String password = new String(fieldPassword.getPassword()).trim();
 
-    // Tentukan role
-    if (Admin.isSelected()) {
-        role = "admin";
-    } else if (Mahasiswa.isSelected()) {
-        role = "mahasiswa";
-    } else if (Dosen.isSelected()) {
-        role = "dosen";
-    }
+        if (username.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "Username tidak boleh kosong!",
+                "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-    // Validasi username
-    if (username.isEmpty()) {
-        javax.swing.JOptionPane.showMessageDialog(
-            this,
-            "Username tidak boleh kosong!",
-            "Peringatan",
-            javax.swing.JOptionPane.WARNING_MESSAGE
-        );
-        return;
-    }
+        database db = new database();
 
-    // Validasi NIM / ID Dosen kosong
-    if (!role.equals("admin") && idRef.isEmpty()) {
-        javax.swing.JOptionPane.showMessageDialog(
-            this,
-            "NIM / ID Dosen tidak boleh kosong!",
-            "Peringatan",
-            javax.swing.JOptionPane.WARNING_MESSAGE
-        );
-        return;
-    }
+        try (java.sql.Connection con = db.koneksi()) {
 
-    database db = new database();
-
-    try (java.sql.Connection con = db.koneksi()) {
-
-        // ===============================
-        // VALIDASI DUPLIKAT NIM / ID DOSEN
-        // ===============================
-        if (!role.equals("admin")) {
-
-            String cekSql =
-            "SELECT * FROM users " +
-            "WHERE id_ref=? " +
-            "AND id_user != ?";
-
-            java.sql.PreparedStatement cek =
-                con.prepareStatement(cekSql);
-
-            cek.setString(1, idRef);
-            cek.setInt(2, idUser);
-
-            java.sql.ResultSet rs =
-                cek.executeQuery();
-
-            if (rs.next()) {
-
-                String pesan;
-
-                if (role.equals("mahasiswa")) {
-                    pesan = "NIM sudah digunakan!";
-                } else {
-                    pesan = "ID Dosen sudah digunakan!";
-                }
-
-                javax.swing.JOptionPane.showMessageDialog(
-                    this,
-                    pesan,
-                    "Peringatan",
-                    javax.swing.JOptionPane.WARNING_MESSAGE
-                );
-
+            // Cek duplikat username (kecuali diri sendiri)
+            String cekSql = "SELECT COUNT(*) FROM users WHERE username = ? AND id_user != ?";
+            java.sql.PreparedStatement psCek = con.prepareStatement(cekSql);
+            psCek.setString(1, username);
+            psCek.setInt(2, idUser);
+            java.sql.ResultSet rs = psCek.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                    "Username sudah digunakan!",
+                    "Peringatan", javax.swing.JOptionPane.WARNING_MESSAGE);
                 return;
             }
+
+            // Update — kalau password dikosongkan, tidak diubah
+            if (password.isEmpty()) {
+                String sql = "UPDATE users SET username = ? WHERE id_user = ?";
+                java.sql.PreparedStatement ps = con.prepareStatement(sql);
+                ps.setString(1, username);
+                ps.setInt(2, idUser);
+                ps.executeUpdate();
+            } else {
+                String sql = "UPDATE users SET username = ?, password = ? WHERE id_user = ?";
+                java.sql.PreparedStatement ps = con.prepareStatement(sql);
+                ps.setString(1, username);
+                ps.setString(2, password);
+                ps.setInt(3, idUser);
+                ps.executeUpdate();
+            }
+
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "Admin berhasil diupdate!",
+                "Sukses", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
+            new FormUser().setVisible(true);
+            this.dispose();
+
+        } catch (java.sql.SQLException e) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "Error: " + e.getMessage(),
+                "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
         }
 
-        // ===============================
-        // UPDATE USER
-        // ===============================
-        String sql;
-
-        // kalau password kosong
-        if (password.isEmpty()) {
-
-            sql =
-                "UPDATE users " +
-                "SET username=?, role=?, id_ref=? " +
-                "WHERE id_user=?";
-
-            java.sql.PreparedStatement ps =
-                con.prepareStatement(sql);
-
-            ps.setString(1, username);
-            ps.setString(2, role);
-            ps.setString(3,
-                role.equals("admin")
-                ? null
-                : idRef
-            );
-            ps.setInt(4, idUser);
-
-            ps.executeUpdate();
-
-        } else {
-
-            sql =
-                "UPDATE users " +
-                "SET username=?, password=?, role=?, id_ref=? " +
-                "WHERE id_user=?";
-
-            java.sql.PreparedStatement ps =
-                con.prepareStatement(sql);
-
-            ps.setString(1, username);
-            ps.setString(2, password);
-            ps.setString(3, role);
-            ps.setString(4,
-                role.equals("admin")
-                ? null
-                : idRef
-            );
-            ps.setInt(5, idUser);
-
-            ps.executeUpdate();
-        }
-
-        javax.swing.JOptionPane.showMessageDialog(
-            this,
-            "User berhasil diupdate!",
-            "Sukses",
-            javax.swing.JOptionPane.INFORMATION_MESSAGE
-        );
-
-        new FormUser().setVisible(true);
-        this.dispose();
-
-    } catch (java.sql.SQLException e) {
-
-        javax.swing.JOptionPane.showMessageDialog(
-            this,
-            "Error: " + e.getMessage(),
-            "Error",
-            javax.swing.JOptionPane.ERROR_MESSAGE
-        );
-    }
     }//GEN-LAST:event_TambahActionPerformed
 
     /**
@@ -396,23 +201,17 @@ public class EditUser extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new EditUser(0, "", "admin", "").setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new EditUser(0, "").setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JRadioButton Admin;
-    private javax.swing.JRadioButton Dosen;
-    private javax.swing.JRadioButton Mahasiswa;
     private javax.swing.JButton Tambah;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JTextField fieldNama;
     private javax.swing.JPasswordField fieldPassword;
-    private javax.swing.JLabel id_reff;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField kolomid;
     private javax.swing.JLabel labelNama;
     private javax.swing.JLabel labelPassword;
-    private javax.swing.JLabel labelRole;
     // End of variables declaration//GEN-END:variables
 }

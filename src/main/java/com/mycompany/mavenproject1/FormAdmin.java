@@ -4,6 +4,8 @@
  */
 package com.mycompany.mavenproject1;
 
+import Form_Dosen.FormDosen;
+import com.mycompany.mavenproject1.Mahasiswa.FormMahasiswa;
 import kelas.FormKelas;
 import matkul.FormMatkul;
 import com.mycompany.mavenproject1.User.FormUser;
@@ -43,6 +45,8 @@ public class FormAdmin extends javax.swing.JFrame {
         Prodi = new javax.swing.JButton();
         Jadwal = new javax.swing.JButton();
         Logout = new javax.swing.JButton();
+        Mahasiswa = new javax.swing.JButton();
+        Dosen = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -98,48 +102,66 @@ public class FormAdmin extends javax.swing.JFrame {
             }
         });
 
+        Mahasiswa.setText("Mahasiswa");
+        Mahasiswa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MahasiswaActionPerformed(evt);
+            }
+        });
+
+        Dosen.setText("Dosen");
+        Dosen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DosenActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(User)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Matkul)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Kelas)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Krs)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Prodi)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(User)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Matkul)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Kelas)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Krs)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Prodi)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Jadwal)
-                .addGap(16, 16, 16))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(198, 198, 198)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(212, 212, 212)
-                        .addComponent(Logout)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Mahasiswa)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Dosen)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Logout)
+                .addGap(284, 284, 284))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(User)
                     .addComponent(Matkul)
                     .addComponent(Kelas)
                     .addComponent(Krs)
                     .addComponent(Prodi)
-                    .addComponent(Jadwal))
-                .addGap(18, 18, 18)
+                    .addComponent(Jadwal)
+                    .addComponent(Mahasiswa)
+                    .addComponent(Dosen))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(Logout)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -194,6 +216,16 @@ public class FormAdmin extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_LogoutActionPerformed
 
+    private void MahasiswaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MahasiswaActionPerformed
+        new FormMahasiswa().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_MahasiswaActionPerformed
+
+    private void DosenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DosenActionPerformed
+        new FormDosen().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_DosenActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -220,10 +252,12 @@ public class FormAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Dosen;
     private javax.swing.JButton Jadwal;
     private javax.swing.JButton Kelas;
     private javax.swing.JButton Krs;
     private javax.swing.JButton Logout;
+    private javax.swing.JButton Mahasiswa;
     private javax.swing.JButton Matkul;
     private javax.swing.JButton Prodi;
     private javax.swing.JButton User;
