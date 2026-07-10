@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.mavenproject1.Mahasiswa;
-
+import javax.swing.JOptionPane;
 /**
  *
  * @author nicos
@@ -312,6 +312,16 @@ public class FormMahasiswa extends javax.swing.JFrame {
         String password = new String(fieldPassword.getPassword()).trim();
         String angkatan = fieldAngkatan.getText().trim();
         String semester = fieldSemester.getText().trim();
+        
+        // Validasi format angkatan (contoh: 2024/2025)
+        if (!angkatan.matches("\\d{4}/\\d{4}")) {
+        javax.swing.JOptionPane.showMessageDialog(this,
+            "Format angkatan harus seperti 2024/2025",
+            "Peringatan",
+            JOptionPane.WARNING_MESSAGE);
+        fieldAngkatan.requestFocus();
+        return;
+}
 
         if (nim.isEmpty() || nama.isEmpty() || password.isEmpty() || angkatan.isEmpty() || semester.isEmpty()) {
             javax.swing.JOptionPane.showMessageDialog(this,
@@ -368,6 +378,16 @@ public class FormMahasiswa extends javax.swing.JFrame {
         String password = new String(fieldPassword.getPassword()).trim();
         String angkatan = fieldAngkatan.getText().trim();
         String semester = fieldSemester.getText().trim();
+        
+        // Validasi format angkatan
+        if (!angkatan.matches("\\d{4}/\\d{4}")) {
+         javax.swing.JOptionPane.showMessageDialog(this,
+            "Format angkatan harus seperti 2024/2025",
+            "Peringatan",
+            JOptionPane.WARNING_MESSAGE);
+        fieldAngkatan.requestFocus();
+        return;
+}
 
         if (nim.isEmpty()) {
             javax.swing.JOptionPane.showMessageDialog(this,
