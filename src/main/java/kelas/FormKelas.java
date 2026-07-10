@@ -114,11 +114,8 @@ public class FormKelas extends javax.swing.JFrame {
         lblHari = new java.awt.Label();
         cbHari = new javax.swing.JComboBox<>();
         lblJamMulai = new java.awt.Label();
-        txtJamMulai = new java.awt.TextField();
         lblJamSelesai = new java.awt.Label();
-        txtJamSelesai = new java.awt.TextField();
         lblRuang = new java.awt.Label();
-        txtRuang = new java.awt.TextField();
         btnTambah = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnHapus = new javax.swing.JButton();
@@ -129,6 +126,9 @@ public class FormKelas extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
         jComboBox2 = new javax.swing.JComboBox<>();
+        txtJamMulai = new javax.swing.JComboBox<>();
+        txtJamSelesai = new javax.swing.JComboBox<>();
+        txtRuang = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -160,12 +160,6 @@ public class FormKelas extends javax.swing.JFrame {
         });
 
         lblJamMulai.setText("Jam Mulai :");
-
-        txtJamMulai.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtJamMulaiActionPerformed(evt);
-            }
-        });
 
         lblJamSelesai.setText("Jam Selesai :");
 
@@ -222,8 +216,24 @@ public class FormKelas extends javax.swing.JFrame {
         });
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        txtJamMulai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "08:00:00", "10:00:00", "12:00:00", " " }));
+        txtJamMulai.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtJamMulaiActionPerformed(evt);
+            }
+        });
+
+        txtJamSelesai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10:30:00", "12:30:00", "14:00:00" }));
+
+        txtRuang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1.02", "Lab VR", "Lab A", "Lab B" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -238,7 +248,6 @@ public class FormKelas extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblRuang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(jButton1)
@@ -264,17 +273,17 @@ public class FormKelas extends javax.swing.JFrame {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(txtSemester, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(layout.createSequentialGroup()
-                                    .addComponent(lblHari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(txtJamSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(cbHari, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtRuang, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(lblHari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblRuang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(cbHari, 0, 88, Short.MAX_VALUE)
+                                        .addComponent(txtJamMulai, 0, 88, Short.MAX_VALUE)
+                                        .addComponent(txtJamSelesai, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txtRuang, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                             .addComponent(lblJamSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblJamMulai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtJamMulai, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(lblJamMulai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(49, 49, 49)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
@@ -315,12 +324,12 @@ public class FormKelas extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblHari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cbHari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lblJamMulai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtJamMulai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lblJamSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtJamSelesai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -346,7 +355,7 @@ public class FormKelas extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnHapus)
                     .addComponent(Bersih))
-                .addContainerGap(89, Short.MAX_VALUE))
+                .addContainerGap(63, Short.MAX_VALUE))
         );
 
         pack();
@@ -393,9 +402,9 @@ public class FormKelas extends javax.swing.JFrame {
         "INSERT INTO jadwal (id_kelas, hari, jam_mulai, jam_selesai, ruang) VALUES (?,?,?,?,?)");
     psJ.setInt(1, idBaru);
     psJ.setString(2, cbHari.getSelectedItem().toString());
-    psJ.setString(3, txtJamMulai.getText());
-    psJ.setString(4, txtJamSelesai.getText());
-    psJ.setString(5, txtRuang.getText());
+    psJ.setString(3, txtJamMulai.getSelectedItem().toString());
+    psJ.setString(4, txtJamSelesai.getSelectedItem().toString());
+    psJ.setString(5, txtRuang.getSelectedItem().toString());
     psJ.executeUpdate();
     c.commit();
     javax.swing.JOptionPane.showMessageDialog(this, "Data berhasil ditambahkan!");
@@ -443,9 +452,9 @@ try {
     java.sql.PreparedStatement psJ = c.prepareStatement(
         "UPDATE jadwal SET hari=?, jam_mulai=?, jam_selesai=?, ruang=? WHERE id_kelas=?");
     psJ.setString(1, cbHari.getSelectedItem().toString());
-    psJ.setString(2, txtJamMulai.getText());
-    psJ.setString(3, txtJamSelesai.getText());
-    psJ.setString(4, txtRuang.getText());
+    psJ.setString(2, txtJamMulai.getSelectedItem().toString());
+    psJ.setString(3, txtJamSelesai.getSelectedItem().toString());
+    psJ.setString(4, txtRuang.getSelectedItem().toString());
     psJ.setInt(5, idK);
     psJ.executeUpdate();
     c.commit();
@@ -493,14 +502,18 @@ if (pilih == javax.swing.JOptionPane.YES_OPTION) {
     bersihForm();        // TODO add your handling code here:
     }//GEN-LAST:event_BersihActionPerformed
 
-    private void txtJamMulaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtJamMulaiActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtJamMulaiActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
     new FormAdmin().setVisible(true);
         this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txtJamMulaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtJamMulaiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtJamMulaiActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -567,64 +580,64 @@ if (pilih == javax.swing.JOptionPane.YES_OPTION) {
         txtTahunAjaran.setText("");
         txtSemester.setText("");
         cbHari.setSelectedIndex(0);
-        txtJamMulai.setText("");
-        txtJamSelesai.setText("");
-        txtRuang.setText("");
+        txtJamMulai.setSelectedIndex(0);
+        txtJamSelesai.setSelectedIndex(0);
+        txtRuang.setSelectedIndex(0);
         tblKelas.clearSelection();
     }
 
-    private void isiFormDariTabel() {
-        int row = tblKelas.getSelectedRow();
-        if (row >= 0) {
-            javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tblKelas.getModel();
-            txtIdKelas.setText(model.getValueAt(row, 0).toString());
-            String kodeMK =
-    model.getValueAt(row,1)
-    .toString();
+   private void isiFormDariTabel() {
+    int row = tblKelas.getSelectedRow();
+    if (row >= 0) {
+        javax.swing.table.DefaultTableModel model =
+                (javax.swing.table.DefaultTableModel) tblKelas.getModel();
 
-    for (int i = 0;
-     i < jComboBox1.getItemCount();
-     i++) {
+        txtIdKelas.setText(model.getValueAt(row, 0).toString());
 
-    if (jComboBox1
-        .getItemAt(i)
-        .startsWith(kodeMK)) {
-
-        jComboBox1
-            .setSelectedIndex(i);
-        break;
-          }
+        // ComboBox Mata Kuliah
+        String kodeMK = model.getValueAt(row, 1).toString();
+        for (int i = 0; i < jComboBox1.getItemCount(); i++) {
+            if (jComboBox1.getItemAt(i).startsWith(kodeMK)) {
+                jComboBox1.setSelectedIndex(i);
+                break;
+            }
         }
 
-        String idDosen =
-        model.getValueAt(row,2)
-          .toString();
-
-        for (int i = 0;
-           i < jComboBox2.getItemCount();
-          i++) {
-
-             if (jComboBox2
-               .getItemAt(i)
-                .startsWith(idDosen)) {
-
-                   jComboBox2
-                   .setSelectedIndex(i);
-                   break;
-             }
+        // ComboBox Dosen
+        String idDosen = model.getValueAt(row, 2).toString();
+        for (int i = 0; i < jComboBox2.getItemCount(); i++) {
+            if (jComboBox2.getItemAt(i).startsWith(idDosen)) {
+                jComboBox2.setSelectedIndex(i);
+                break;
             }
-            txtTahunAjaran.setText(model.getValueAt(row, 3).toString());
-            txtSemester.setText(model.getValueAt(row, 4).toString());
-            Object hari = model.getValueAt(row, 5);
-            if (hari != null) cbHari.setSelectedItem(hari.toString());
-            Object jm = model.getValueAt(row, 6);
-            txtJamMulai.setText(jm != null ? jm.toString() : "");
-            Object js = model.getValueAt(row, 7);
-            txtJamSelesai.setText(js != null ? js.toString() : "");
-            Object ruang = model.getValueAt(row, 8);
-            txtRuang.setText(ruang != null ? ruang.toString() : "");
+        }
+
+        txtTahunAjaran.setText(model.getValueAt(row, 3).toString());
+        txtSemester.setText(model.getValueAt(row, 4).toString());
+
+        Object hari = model.getValueAt(row, 5);
+        if (hari != null) {
+            cbHari.setSelectedItem(hari.toString());
+        }
+
+        // Sekarang menggunakan JComboBox
+        Object jm = model.getValueAt(row, 6);
+        if (jm != null) {
+            txtJamMulai.setSelectedItem(jm.toString());
+        }
+
+        Object js = model.getValueAt(row, 7);
+        if (js != null) {
+            txtJamSelesai.setSelectedItem(js.toString());
+        }
+
+        Object ruang = model.getValueAt(row, 8);
+        if (ruang != null) {
+            txtRuang.setSelectedItem(ruang.toString());
         }
     }
+}
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Bersih;
@@ -650,9 +663,9 @@ if (pilih == javax.swing.JOptionPane.YES_OPTION) {
     private javax.swing.JTable tblKelas;
     private java.awt.TextArea textArea1;
     private java.awt.TextField txtIdKelas;
-    private java.awt.TextField txtJamMulai;
-    private java.awt.TextField txtJamSelesai;
-    private java.awt.TextField txtRuang;
+    private javax.swing.JComboBox<String> txtJamMulai;
+    private javax.swing.JComboBox<String> txtJamSelesai;
+    private javax.swing.JComboBox<String> txtRuang;
     private java.awt.TextField txtSemester;
     private java.awt.TextField txtTahunAjaran;
     // End of variables declaration//GEN-END:variables

@@ -37,7 +37,6 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblRuang" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
                                   <Component id="jButton1" min="-2" max="-2" attributes="0"/>
@@ -69,21 +68,21 @@
                                   <Component id="txtSemester" min="-2" pref="88" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
-                                  <Component id="lblHari" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="txtJamSelesai" min="-2" pref="88" max="-2" attributes="0"/>
-                                      <Component id="cbHari" min="-2" pref="88" max="-2" attributes="0"/>
-                                      <Component id="txtRuang" alignment="0" min="-2" pref="88" max="-2" attributes="0"/>
+                                      <Component id="lblHari" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblRuang" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="32" max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="cbHari" pref="88" max="32767" attributes="0"/>
+                                      <Component id="txtJamMulai" pref="88" max="32767" attributes="0"/>
+                                      <Component id="txtJamSelesai" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="txtRuang" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
                           <Component id="lblJamSelesai" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="lblJamMulai" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="txtJamMulai" min="-2" pref="88" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="lblJamMulai" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
                       <Component id="jScrollPane1" max="32767" attributes="0"/>
@@ -138,13 +137,13 @@
                           <Component id="lblHari" min="-2" max="-2" attributes="0"/>
                           <Component id="cbHari" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
+                      <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="lblJamMulai" min="-2" max="-2" attributes="0"/>
                           <Component id="txtJamMulai" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="lblJamSelesai" min="-2" max="-2" attributes="0"/>
                           <Component id="txtJamSelesai" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -179,7 +178,7 @@
                   <Component id="btnHapus" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="Bersih" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="89" max="32767" attributes="0"/>
+              <EmptySpace pref="63" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -253,24 +252,15 @@
         <Property name="text" type="java.lang.String" value="Jam Mulai :"/>
       </Properties>
     </Component>
-    <Component class="java.awt.TextField" name="txtJamMulai">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtJamMulaiActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="java.awt.Label" name="lblJamSelesai">
       <Properties>
         <Property name="text" type="java.lang.String" value="Jam Selesai :"/>
       </Properties>
     </Component>
-    <Component class="java.awt.TextField" name="txtJamSelesai">
-    </Component>
     <Component class="java.awt.Label" name="lblRuang">
       <Properties>
         <Property name="text" type="java.lang.String" value="Ruang :"/>
       </Properties>
-    </Component>
-    <Component class="java.awt.TextField" name="txtRuang">
     </Component>
     <Component class="javax.swing.JButton" name="btnTambah">
       <Properties>
@@ -351,6 +341,9 @@
           </StringArray>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox1ActionPerformed"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
@@ -363,6 +356,53 @@
             <StringItem index="1" value="Item 2"/>
             <StringItem index="2" value="Item 3"/>
             <StringItem index="3" value="Item 4"/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="txtJamMulai">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="4">
+            <StringItem index="0" value="08:00:00"/>
+            <StringItem index="1" value="10:00:00"/>
+            <StringItem index="2" value="12:00:00"/>
+            <StringItem index="3" value=" "/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtJamMulaiActionPerformed"/>
+      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="txtJamSelesai">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="3">
+            <StringItem index="0" value="10:30:00"/>
+            <StringItem index="1" value="12:30:00"/>
+            <StringItem index="2" value="14:00:00"/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="txtRuang">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="4">
+            <StringItem index="0" value="1.02"/>
+            <StringItem index="1" value="Lab VR"/>
+            <StringItem index="2" value="Lab A"/>
+            <StringItem index="3" value="Lab B"/>
           </StringArray>
         </Property>
       </Properties>
