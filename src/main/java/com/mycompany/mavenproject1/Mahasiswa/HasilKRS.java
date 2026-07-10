@@ -20,13 +20,17 @@ public class HasilKRS extends javax.swing.JFrame {
     /**
      * Creates new form HasilKRS
      */
+    
+    
+    
     private String nim;
     public HasilKRS(String nim) {
     initComponents();
+
     this.nim = nim;
 
+    
     tampilData();
-    tampilRiwayat();
 }
     
     private void tampilData() {
@@ -38,9 +42,17 @@ public class HasilKRS extends javax.swing.JFrame {
     model.addColumn("Mata Kuliah");
     model.addColumn("SKS");
     model.addColumn("Status");
-    model.addColumn("Catatan");
 
     jTable2hasilkrs.setModel(model);
+    jTable2hasilkrs.setRowHeight(28);
+    jTable2hasilkrs.setSelectionBackground(new java.awt.Color(26,86,160));
+    jTable2hasilkrs.getTableHeader().setReorderingAllowed(false);
+    jTable2hasilkrs.getTableHeader().setResizingAllowed(false);
+
+    jTable2hasilkrs.getColumnModel().getColumn(0).setPreferredWidth(90);
+    jTable2hasilkrs.getColumnModel().getColumn(1).setPreferredWidth(220);
+    jTable2hasilkrs.getColumnModel().getColumn(2).setPreferredWidth(50);
+    jTable2hasilkrs.getColumnModel().getColumn(3).setPreferredWidth(90);
 
     try {
 
@@ -51,8 +63,7 @@ public class HasilKRS extends javax.swing.JFrame {
         "SELECT mk.kode_mk, " +
         "mk.nama_mk, " +
         "mk.sks, " +
-        "k.status, " +
-        "COALESCE(k.catatan,'-') AS catatan " +
+        "k.status " +
         "FROM krs k " +
         "JOIN krs_detail kd " +
         "ON k.id_krs = kd.id_krs " +
@@ -74,28 +85,35 @@ public class HasilKRS extends javax.swing.JFrame {
         int totalSKS = 0;
         boolean adaData = false;
 
-        while(rs.next()) {
+        while (rs.next()) {
 
-            adaData = true;
+    adaData = true;
 
-            int sks =
-            rs.getInt("sks");
+    int sks = rs.getInt("sks");
+    totalSKS += sks;
 
-            totalSKS += sks;
-
-            model.addRow(new Object[]{
-                rs.getString("kode_mk"),
-                rs.getString("nama_mk"),
-                sks,
-                rs.getString("status"),
-                rs.getString("catatan")
-            });
+    model.addRow(new Object[]{
+        rs.getString("kode_mk"),
+        rs.getString("nama_mk"),
+        sks,
+        rs.getString("status")
+         });
         }
 
-        jLabel2.setText(
-            "Informasi | Total SKS: "
-            + totalSKS
-        );
+    // Tampilkan total SKS dengan batas maksimal 23
+    jLabel1.setText("Total SKS : " + totalSKS + " / 23");
+
+    // Jika melebihi batas, tampilkan peringatan
+    if (totalSKS > 23) {
+    JOptionPane.showMessageDialog(
+        this,
+        "Total SKS melebihi batas maksimal (23 SKS)!",
+        "Peringatan",
+        JOptionPane.WARNING_MESSAGE
+    );
+    }
+
+        jLabel1.setText("Total SKS : " + totalSKS);
 
         if (!adaData) {
 
@@ -114,58 +132,7 @@ public class HasilKRS extends javax.swing.JFrame {
     }
 }
     
-    private void tampilRiwayat() {
-
-    DefaultTableModel model =
-            new DefaultTableModel();
-
-    model.addColumn("ID KRS");
-    model.addColumn("Semester");
-    model.addColumn("Tahun Ajaran");
-    model.addColumn("Status");
-    model.addColumn("Catatan");
-
-    jTable2RiwayatKRS.setModel(model);
-
-    try {
-
-        Connection conn =
-                Koneksi.getConnection();
-
-        String sql =
-                "SELECT id_krs, semester, tahun_ajaran, status, " +
-                "COALESCE(catatan,'-') AS catatan " +
-                "FROM krs " +
-                "WHERE nim=? " +
-                "ORDER BY id_krs DESC";
-
-        PreparedStatement ps =
-                conn.prepareStatement(sql);
-
-        ps.setString(1, nim);
-
-        ResultSet rs =
-                ps.executeQuery();
-
-        while(rs.next()) {
-
-            model.addRow(new Object[]{
-                rs.getInt("id_krs"),
-                rs.getInt("semester"),
-                rs.getString("tahun_ajaran"),
-                rs.getString("status"),
-                rs.getString("catatan")
-            });
-        }
-
-    } catch(Exception e) {
-
-        JOptionPane.showMessageDialog(
-                this,
-                e.getMessage()
-        );
-    }
-}
+    
     
     
 
@@ -180,15 +147,12 @@ public class HasilKRS extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         Back = new javax.swing.JButton();
         Cetak = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2hasilkrs = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2RiwayatKRS = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -204,10 +168,6 @@ public class HasilKRS extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel1.setText("Riwayat KRS");
-
-        jLabel2.setText("Informasi");
 
         Back.setText("Back");
         Back.addActionListener(new java.awt.event.ActionListener() {
@@ -239,18 +199,7 @@ public class HasilKRS extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setText("HASIL KRS");
 
-        jTable2RiwayatKRS.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane3.setViewportView(jTable2RiwayatKRS);
+        jLabel1.setText("Informasi");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -259,39 +208,34 @@ public class HasilKRS extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(Cetak)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(Back))
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(Cetak)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Back)
+                        .addGap(28, 28, 28))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(90, 90, 90)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(21, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(148, 148, 148)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(21, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(jLabel2)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
+                .addComponent(jLabel3)
+                .addGap(63, 63, 63)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Back)
-                    .addComponent(Cetak))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(Cetak)
+                    .addComponent(Back))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         pack();
@@ -415,13 +359,10 @@ public class HasilKRS extends javax.swing.JFrame {
     private javax.swing.JButton Back;
     private javax.swing.JButton Cetak;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2RiwayatKRS;
     private javax.swing.JTable jTable2hasilkrs;
     // End of variables declaration//GEN-END:variables
 }
