@@ -225,14 +225,14 @@ public class FormKelas extends javax.swing.JFrame {
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        txtJamMulai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "08:00:00", "10:00:00", "12:00:00", " " }));
+        txtJamMulai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "08:30:00", "10:30:00", "12:30:00", " " }));
         txtJamMulai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtJamMulaiActionPerformed(evt);
             }
         });
 
-        txtJamSelesai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10:30:00", "12:30:00", "14:00:00" }));
+        txtJamSelesai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10:30:00", "12:30:00", "14:30:00" }));
 
         txtRuang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1.02", "Lab VR", "Lab A", "Lab B" }));
 

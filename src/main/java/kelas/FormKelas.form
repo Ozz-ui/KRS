@@ -367,9 +367,9 @@
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="4">
-            <StringItem index="0" value="08:00:00"/>
-            <StringItem index="1" value="10:00:00"/>
-            <StringItem index="2" value="12:00:00"/>
+            <StringItem index="0" value="08:30:00"/>
+            <StringItem index="1" value="10:30:00"/>
+            <StringItem index="2" value="12:30:00"/>
             <StringItem index="3" value=" "/>
           </StringArray>
         </Property>
@@ -387,7 +387,7 @@
           <StringArray count="3">
             <StringItem index="0" value="10:30:00"/>
             <StringItem index="1" value="12:30:00"/>
-            <StringItem index="2" value="14:00:00"/>
+            <StringItem index="2" value="14:30:00"/>
           </StringArray>
         </Property>
       </Properties>
