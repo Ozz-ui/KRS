@@ -26,6 +26,7 @@ public class FormAdmin extends javax.swing.JFrame {
      */
     public FormAdmin() {
         initComponents();
+        Jadwal.setVisible(false);
     }
 
     /**

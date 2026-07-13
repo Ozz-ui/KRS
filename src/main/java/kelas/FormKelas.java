@@ -6,6 +6,7 @@ package kelas;
 
 import com.mycompany.mavenproject1.FormAdmin;
 import com.mycompany.mavenproject1.User.FormUser;
+import java.time.LocalTime;
 
 /**
  *
@@ -371,6 +372,9 @@ public class FormKelas extends javax.swing.JFrame {
     }//GEN-LAST:event_cbHariActionPerformed
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
+    if (!isJamValid()) {
+        return;
+    }
     java.sql.Connection c = null;
     try {
     c = getConn();
@@ -424,6 +428,9 @@ public class FormKelas extends javax.swing.JFrame {
     javax.swing.JOptionPane.showMessageDialog(this, "Pilih data di tabel dulu!");
     return;
 }
+    if (!isJamValid()) {
+        return;
+    }
 java.sql.Connection c = null;
 try {
     c = getConn();
@@ -573,6 +580,42 @@ if (pilih == javax.swing.JOptionPane.YES_OPTION) {
         return java.sql.DriverManager.getConnection("jdbc:mysql://localhost:3306/krs", "root", "");
     }
 
+    // Validasi: jam selesai harus setelah jam mulai, minimal 30 menit
+    private boolean isJamValid() {
+        try {
+            String jamMulaiStr = txtJamMulai.getSelectedItem().toString().trim();
+            String jamSelesaiStr = txtJamSelesai.getSelectedItem().toString().trim();
+
+            if (jamMulaiStr.isEmpty() || jamSelesaiStr.isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                    "Jam mulai dan jam selesai wajib dipilih!");
+                return false;
+            }
+
+            LocalTime jamMulai = LocalTime.parse(jamMulaiStr);
+            LocalTime jamSelesai = LocalTime.parse(jamSelesaiStr);
+
+            if (!jamSelesai.isAfter(jamMulai)) {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                    "Jam selesai (" + jamSelesaiStr + ") harus lebih besar dari jam mulai (" + jamMulaiStr + ")!");
+                return false;
+            }
+
+            if (java.time.Duration.between(jamMulai, jamSelesai).toMinutes() < 30) {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                    "Durasi kelas minimal 30 menit!");
+                return false;
+            }
+
+            return true;
+
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                "Format jam tidak valid: " + e.getMessage());
+            return false;
+        }
+    }
+    
     private void bersihForm() {
         txtIdKelas.setText("");
         jComboBox1.setSelectedIndex(0);

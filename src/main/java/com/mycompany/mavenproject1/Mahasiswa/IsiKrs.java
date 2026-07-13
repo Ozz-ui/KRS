@@ -1,4 +1,4 @@
-/*
+    /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
@@ -111,45 +111,42 @@ public class IsiKrs extends javax.swing.JFrame {
     }
     });
 
-    try {
-
-        Connection conn =
-                Koneksi.getConnection();
-
-        String sql =
+    String sql =
         "SELECT k.id_kelas, " +
         "mk.kode_mk, " +
         "mk.nama_mk, " +
-        "mk.sks " +
+        "mk.sks, " +
+        "(k.kapasitas - k.jumlah_peserta) AS sisa_kursi " +
         "FROM kelas k " +
-        "JOIN mata_kuliah mk " +
-        "ON k.kode_mk = mk.kode_mk " +
+        "JOIN mata_kuliah mk ON k.kode_mk = mk.kode_mk " +
+        "WHERE k.semester = ? " +
+        "AND k.jumlah_peserta < k.kapasitas " +
         "ORDER BY mk.kode_mk";
 
-        PreparedStatement ps =
-                conn.prepareStatement(sql);
+    try (Connection conn = Koneksi.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
 
-        
+        ps.setInt(1, Integer.parseInt(semester));
 
-        ResultSet rs =
-                ps.executeQuery();
+        try (ResultSet rs = ps.executeQuery()) {
 
-        while (rs.next()) {
+            while (rs.next()) {
 
-            model.addRow(new Object[]{
-                false,
-                rs.getString("id_kelas"),
-                rs.getString("kode_mk"),
-                rs.getString("nama_mk"),
-                rs.getInt("sks")
-            });
+                model.addRow(new Object[]{
+                    false,
+                    rs.getString("id_kelas"),
+                    rs.getString("kode_mk"),
+                    rs.getString("nama_mk"),
+                    rs.getInt("sks")
+                });
+            }
         }
 
         if (model.getRowCount() == 0) {
 
             JOptionPane.showMessageDialog(
                 null,
-                "Belum ada kelas untuk semester "
+                "Belum ada kelas tersedia untuk semester "
                 + semester
             );
         }
@@ -161,7 +158,7 @@ public class IsiKrs extends javax.swing.JFrame {
                 e.getMessage()
         );
     }
-}
+}   
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -298,173 +295,198 @@ public class IsiKrs extends javax.swing.JFrame {
     }//GEN-LAST:event_BackActionPerformed
 
     private void SimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SimpanActionPerformed
-        // TODO add your handling code here:
-         try {
-
-        Connection conn = Koneksi.getConnection();
-
-        int totalSKS = 0;
+            int totalSKS = 0;
         boolean adaPilihan = false;
-
+ 
         // hitung total sks
         for (int i = 0; i < jTable1.getRowCount(); i++) {
-
+ 
             Boolean pilih =
                 (Boolean) jTable1.getValueAt(i, 0);
-
+ 
             if (pilih != null && pilih) {
-
+ 
                 adaPilihan = true;
-
+ 
                 int sks = Integer.parseInt(
                     jTable1.getValueAt(i, 4).toString()
                 );
-
+ 
                 totalSKS += sks;
             }
         }
-
+ 
         if (!adaPilihan) {
-    JOptionPane.showMessageDialog(
-        this,
-        "Pilih minimal 1 mata kuliah!"
-    );
-    return;
-}
-
-// maksimal 24 sks
-    if (totalSKS > 24) {
-
-    JOptionPane.showMessageDialog(
-        this,
-        "Total SKS melebihi batas maksimal 24 SKS!"
-    );
-
-    return;
-    }
-
+            JOptionPane.showMessageDialog(
+                this,
+                "Pilih minimal 1 mata kuliah!"
+            );
+            return;
+        }
+ 
+        // maksimal 24 sks
+        if (totalSKS > 24) {
+ 
+            JOptionPane.showMessageDialog(
+                this,
+                "Total SKS melebihi batas maksimal 24 SKS!"
+            );
+ 
+            return;
+        }
+ 
         // tampil total sks
         TotalSKS.setText(String.valueOf(totalSKS));
-
-        // cek apakah mahasiswa sudah pernah isi krs semester ini
-        String cekKrs =
-            "SELECT id_krs FROM krs " +
-            "WHERE nim=? AND semester=?";
-
-        PreparedStatement psCek =
-            conn.prepareStatement(cekKrs);
-
-        psCek.setString(1, nim);
-        psCek.setInt(2,
-            Integer.parseInt(semester));
-
-        ResultSet rsCek =
-            psCek.executeQuery();
-
-        int idKrs = 0;
-
-        if (rsCek.next()) {
-
-            idKrs =
-                rsCek.getInt("id_krs");
-
-        } else {
-
-            // simpan ke tabel krs
-            String sqlKrs =
-                "INSERT INTO krs " +
-                "(nim, semester, tahun_ajaran, status) " +
-                "VALUES (?, ?, ?, ?)";
-
-            PreparedStatement psKrs =
-                conn.prepareStatement(
-                    sqlKrs,
-                    PreparedStatement.RETURN_GENERATED_KEYS
-                );
-
-            psKrs.setString(1, nim);
-            psKrs.setInt(2,
-                Integer.parseInt(semester));
-            psKrs.setString(3,
-                "2025/2026");
-            psKrs.setString(4,
-                "Menunggu");
-
-            psKrs.executeUpdate();
-
-            ResultSet generatedKeys =
-                psKrs.getGeneratedKeys();
-
-            if (generatedKeys.next()) {
-                idKrs =
-                    generatedKeys.getInt(1);
-            }
-        }
-
-        // simpan matkul ke krs_detail
-        for (int i = 0; i < jTable1.getRowCount(); i++) {
-
-            Boolean pilih =
-                (Boolean) jTable1.getValueAt(i, 0);
-
-            if (pilih != null && pilih) {
-
-                int idKelas =
-                    Integer.parseInt(
-                        jTable1
-                        .getValueAt(i, 1)
-                        .toString()
-                    );
-
-                // anti duplicate
-                String cekDetail =
-                    "SELECT * FROM krs_detail " +
-                    "WHERE id_krs=? " +
-                    "AND id_kelas=?";
-
-                PreparedStatement psCekDetail =
-                    conn.prepareStatement(
-                        cekDetail
-                    );
-
-                psCekDetail.setInt(1, idKrs);
-                psCekDetail.setInt(2, idKelas);
-
-                ResultSet rsDetail =
-                    psCekDetail.executeQuery();
-
-                if (!rsDetail.next()) {
-
-                    String sqlDetail =
-                        "INSERT INTO krs_detail " +
-                        "(id_krs, id_kelas) " +
-                        "VALUES (?, ?)";
-
-                    PreparedStatement psDetail =
-                        conn.prepareStatement(
-                            sqlDetail
-                        );
-
-                    psDetail.setInt(1, idKrs);
-                    psDetail.setInt(2, idKelas);
-
-                    psDetail.executeUpdate();
+ 
+        // FIX: seluruh proses sekarang dibungkus 1 transaksi.
+        // Kalau ada error di tengah jalan (misalnya kelas keburu
+        // penuh dan trigger MySQL menolak salah satu insert),
+        // semua perubahan di-rollback, bukan cuma berhenti setengah jalan.
+        Connection conn = null;
+ 
+        try {
+            conn = Koneksi.getConnection();
+            conn.setAutoCommit(false);
+ 
+            // cek apakah mahasiswa sudah pernah isi krs semester ini,
+            // sekaligus ambil statusnya
+            String cekKrs =
+                "SELECT id_krs, status FROM krs " +
+                "WHERE nim=? AND semester=?";
+ 
+            int idKrs = 0;
+ 
+            try (PreparedStatement psCek = conn.prepareStatement(cekKrs)) {
+ 
+                psCek.setString(1, nim);
+                psCek.setInt(2, Integer.parseInt(semester));
+ 
+                try (ResultSet rsCek = psCek.executeQuery()) {
+ 
+                    if (rsCek.next()) {
+ 
+                        String statusSekarang = rsCek.getString("status");
+ 
+                        // FIX: kalau KRS sudah diproses admin, jangan
+                        // biarkan mahasiswa menambah/mengubah isi KRS lagi.
+                        if ("Disetujui".equals(statusSekarang)
+                                || "Ditolak".equals(statusSekarang)) {
+ 
+                            JOptionPane.showMessageDialog(
+                                this,
+                                "KRS semester ini sudah diproses admin (status: "
+                                + statusSekarang
+                                + "). Tidak bisa diubah lagi."
+                            );
+                            conn.rollback();
+                            return;
+                        }
+ 
+                        idKrs = rsCek.getInt("id_krs");
+ 
+                    } else {
+ 
+                        // simpan ke tabel krs
+                        String sqlKrs =
+                            "INSERT INTO krs " +
+                            "(nim, semester, tahun_ajaran, status) " +
+                            "VALUES (?, ?, ?, ?)";
+ 
+                        try (PreparedStatement psKrs = conn.prepareStatement(
+                                sqlKrs,
+                                PreparedStatement.RETURN_GENERATED_KEYS
+                        )) {
+ 
+                            psKrs.setString(1, nim);
+                            psKrs.setInt(2, Integer.parseInt(semester));
+                            // TODO: ambil tahun ajaran aktif dari tabel/config,
+                            // jangan hardcode.
+                            psKrs.setString(3, "2025/2026");
+                            psKrs.setString(4, "Menunggu");
+ 
+                            psKrs.executeUpdate();
+ 
+                            try (ResultSet generatedKeys = psKrs.getGeneratedKeys()) {
+                                if (generatedKeys.next()) {
+                                    idKrs = generatedKeys.getInt(1);
+                                }
+                            }
+                        }
+                    }
                 }
             }
+ 
+            // simpan matkul ke krs_detail
+            String cekDetail =
+                "SELECT 1 FROM krs_detail WHERE id_krs=? AND id_kelas=?";
+            String sqlDetail =
+                "INSERT INTO krs_detail (id_krs, id_kelas) VALUES (?, ?)";
+ 
+            try (PreparedStatement psCekDetail = conn.prepareStatement(cekDetail);
+                 PreparedStatement psDetail = conn.prepareStatement(sqlDetail)) {
+ 
+                for (int i = 0; i < jTable1.getRowCount(); i++) {
+ 
+                    Boolean pilih = (Boolean) jTable1.getValueAt(i, 0);
+ 
+                    if (pilih != null && pilih) {
+ 
+                        int idKelas = Integer.parseInt(
+                            jTable1.getValueAt(i, 1).toString()
+                        );
+ 
+                        psCekDetail.setInt(1, idKrs);
+                        psCekDetail.setInt(2, idKelas);
+ 
+                        try (ResultSet rsDetail = psCekDetail.executeQuery()) {
+                            if (rsDetail.next()) {
+                                continue; // sudah ada, skip (anti-duplicate)
+                            }
+                        }
+ 
+                        // Kalau kelas sudah penuh, trigger MySQL
+                        // (trg_krs_detail_before_insert) akan melempar
+                        // SQLException di sini -> ditangkap di catch bawah
+                        // -> seluruh transaksi di-rollback.
+                        psDetail.setInt(1, idKrs);
+                        psDetail.setInt(2, idKelas);
+                        psDetail.executeUpdate();
+                    }
+                }
+            }
+ 
+            conn.commit();
+ 
+            JOptionPane.showMessageDialog(
+                this,
+                "KRS berhasil dikirim ke admin!"
+            );
+ 
+        } catch (Exception e) {
+ 
+            try {
+                if (conn != null) {
+                    conn.rollback();
+                }
+            } catch (java.sql.SQLException rollbackEx) {
+                logger.log(java.util.logging.Level.SEVERE, null, rollbackEx);
+            }
+ 
+            JOptionPane.showMessageDialog(
+                this,
+                "Gagal menyimpan KRS: " + e.getMessage()
+            );
+ 
+        } finally {
+ 
+            try {
+                if (conn != null) {
+                    conn.setAutoCommit(true);
+                }
+            } catch (java.sql.SQLException ex) {
+                logger.log(java.util.logging.Level.SEVERE, null, ex);
+            }
         }
-
-        JOptionPane.showMessageDialog(
-            this,
-            "KRS berhasil dikirim ke admin!"
-        );
-
-    } catch (Exception e) {
-
-        JOptionPane.showMessageDialog(
-            this,
-            e.getMessage()
-        );
-    }
     }//GEN-LAST:event_SimpanActionPerformed
 
     /**
