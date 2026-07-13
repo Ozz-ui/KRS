@@ -9,6 +9,9 @@ import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import com.mycompany.mavenproject1.Koneksi;
+import java.awt.print.PrinterException;
+import java.text.MessageFormat;
+import javax.swing.JTable;
 /**
  *
  * @author user
@@ -25,8 +28,9 @@ public class HasilKRS extends javax.swing.JFrame {
     
     private String nim;
     public HasilKRS(String nim) {
+
     initComponents();
-    
+
     TotalKrs.setEditable(false);
     TotalKrs.setBackground(getBackground());
     TotalKrs.setBorder(null);
@@ -34,9 +38,49 @@ public class HasilKRS extends javax.swing.JFrame {
 
     this.nim = nim;
 
-    
+    tampilProfil();
     tampilData();
+
 }
+   
+    
+    
+    private void tampilProfil() {
+
+    try {
+
+        Connection conn = Koneksi.getConnection();
+
+        String sql =
+        "SELECT m.nim, m.nama, m.semester, p.nama_prodi " +
+        "FROM mahasiswa m " +
+        "LEFT JOIN prodi p ON m.id_prodi = p.id_prodi " +
+        "WHERE m.nim=?";
+
+        PreparedStatement ps =
+                conn.prepareStatement(sql);
+
+        ps.setString(1, nim);
+
+        ResultSet rs = ps.executeQuery();
+
+        if(rs.next()){
+
+            lblNim.setText("NIM : " + rs.getString("nim"));
+            lblNama.setText("Nama : " + rs.getString("nama"));
+            lblProdi.setText("Prodi : " + rs.getString("nama_prodi"));
+            lblSemester.setText("Semester : " + rs.getString("semester"));
+
+        }
+
+    }catch(Exception e){
+
+        JOptionPane.showMessageDialog(this,e.getMessage());
+
+    }
+
+}
+
     
     private void tampilData() {
 
@@ -138,6 +182,8 @@ public class HasilKRS extends javax.swing.JFrame {
 }
     
     
+ 
+    
     
     
 
@@ -160,6 +206,10 @@ public class HasilKRS extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         TotalKrs = new javax.swing.JTextPane();
+        lblNim = new javax.swing.JLabel();
+        lblNama = new javax.swing.JLabel();
+        lblProdi = new javax.swing.JLabel();
+        lblSemester = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -210,6 +260,14 @@ public class HasilKRS extends javax.swing.JFrame {
 
         jScrollPane3.setViewportView(TotalKrs);
 
+        lblNim.setText("NIM :");
+
+        lblNama.setText("Nama :");
+
+        lblProdi.setText("Prodi :");
+
+        lblSemester.setText("Semester :");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -225,29 +283,45 @@ public class HasilKRS extends javax.swing.JFrame {
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap(21, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(93, 93, 93)
-                        .addComponent(Cetak)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Back)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(91, 91, 91)
+                                .addComponent(Cetak)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(Back))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(lblSemester, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
+                                .addComponent(lblProdi, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblNama, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblNim, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel3)
-                .addGap(40, 40, 40)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblNim)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblNama)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblProdi)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblSemester)
+                .addGap(41, 41, 41)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(Cetak)
-                        .addComponent(Back)))
-                .addContainerGap(150, Short.MAX_VALUE))
+                        .addComponent(Back))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel1)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
 
         pack();
@@ -309,33 +383,54 @@ public class HasilKRS extends javax.swing.JFrame {
 
     private void CetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CetakActionPerformed
         // TODO add your handling code here:
-          try {
+            try {
 
-        boolean selesai =
-        jTable2hasilkrs.print();
+        StringBuilder sb = new StringBuilder();
 
-        if (selesai) {
+        sb.append("\t\tHASIL KARTU RENCANA STUDI\n");
+        sb.append("============================================================\n\n");
 
-            JOptionPane.showMessageDialog(
-                this,
-                "Hasil KRS berhasil dicetak!"
-            );
+        sb.append(lblNim.getText()).append("\n");
+        sb.append(lblNama.getText()).append("\n");
+        sb.append(lblProdi.getText()).append("\n");
+        sb.append(lblSemester.getText()).append("\n");
 
-        } else {
+        sb.append("------------------------------------------------------------\n");
+        sb.append(String.format("%-10s %-30s %-5s %-12s\n",
+                "Kode", "Mata Kuliah", "SKS", "Status"));
+        sb.append("------------------------------------------------------------\n");
 
-            JOptionPane.showMessageDialog(
-                this,
-                "Cetak dibatalkan"
-            );
+        DefaultTableModel model =
+                (DefaultTableModel) jTable2hasilkrs.getModel();
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+
+            sb.append(String.format(
+                    "%-10s %-30s %-5s %-12s\n",
+                    model.getValueAt(i,0),
+                    model.getValueAt(i,1),
+                    model.getValueAt(i,2),
+                    model.getValueAt(i,3)
+            ));
         }
 
-    } catch (Exception e) {
+        sb.append("\n");
+        sb.append("============================================================\n");
+        sb.append("Total SKS : ").append(TotalKrs.getText());
 
-        JOptionPane.showMessageDialog(
-            this,
-            "Gagal mencetak: "
-            + e.getMessage()
-        );
+        javax.swing.JTextArea area = new javax.swing.JTextArea();
+
+        area.setText(sb.toString());
+
+        area.setFont(new java.awt.Font("Monospaced",
+                java.awt.Font.PLAIN,12));
+
+        area.print();
+
+    } catch(Exception e){
+
+        JOptionPane.showMessageDialog(this,e.getMessage());
+
     }
     }//GEN-LAST:event_CetakActionPerformed
 
@@ -378,5 +473,9 @@ public class HasilKRS extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2hasilkrs;
+    private javax.swing.JLabel lblNama;
+    private javax.swing.JLabel lblNim;
+    private javax.swing.JLabel lblProdi;
+    private javax.swing.JLabel lblSemester;
     // End of variables declaration//GEN-END:variables
 }
